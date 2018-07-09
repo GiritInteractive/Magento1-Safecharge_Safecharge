@@ -1,0 +1,217 @@
+<?xml version="1.0"?>
+<config>
+	<sections>
+		<payment>
+			<groups>
+				<safecharge translate="label comment tooltip" module="safecharge_safecharge">
+					<label>Safecharge</label>
+					<frontend_type>text</frontend_type>
+					<sort_order>50</sort_order>
+					<show_in_default>1</show_in_default>
+					<show_in_website>1</show_in_website>
+					<show_in_store>1</show_in_store>
+					<fields>
+						<active translate="label comment tooltip">
+							<label>Enabled</label>
+							<frontend_type>select</frontend_type>
+							<source_model>adminhtml/system_config_source_yesno</source_model>
+							<sort_order>10</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>1</show_in_website>
+							<show_in_store>1</show_in_store>
+						</active>
+						<title translate="label comment tooltip">
+							<label>Title</label>
+							<frontend_type>text</frontend_type>
+							<sort_order>20</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>1</show_in_website>
+							<show_in_store>1</show_in_store>
+						</title>
+						<mode translate="label comment tooltip">
+							<label>Mode</label>
+							<frontend_type>select</frontend_type>
+							<source_model>safecharge_safecharge/source_mode</source_model>
+							<sort_order>30</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>1</show_in_website>
+							<show_in_store>1</show_in_store>
+						</mode>
+						<merchant_id translate="label comment tooltip">
+							<label>Merchant ID</label>
+							<frontend_type>obscure</frontend_type>
+							<backend_model>adminhtml/system_config_backend_encrypted</backend_model>
+							<sort_order>40</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>1</show_in_website>
+							<show_in_store>1</show_in_store>
+							<comment>Value provided by Safecharge.</comment>
+							<tooltip>Value provided by Safecharge.</tooltip>
+						</merchant_id>
+						<merchant_site_id translate="label comment tooltip">
+							<label>Merchant Site Id</label>
+							<frontend_type>text</frontend_type>
+							<sort_order>50</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>1</show_in_website>
+							<show_in_store>1</show_in_store>
+							<comment>Value provided by Safecharge.</comment>
+							<tooltip>Value provided by Safecharge.</tooltip>
+						</merchant_site_id>
+						<merchant_secret_key translate="label comment tooltip">
+							<label>Merchant Secret Key</label>
+							<frontend_type>obscure</frontend_type>
+							<backend_model>adminhtml/system_config_backend_encrypted</backend_model>
+							<sort_order>60</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>1</show_in_website>
+							<show_in_store>1</show_in_store>
+							<comment>Value provided by Safecharge.</comment>
+							<tooltip>Value provided by Safecharge.</tooltip>
+						</merchant_secret_key>
+						<sandbox_merchant_id translate="label comment tooltip">
+							<label>Sandbox Merchant ID</label>
+							<frontend_type>obscure</frontend_type>
+							<backend_model>adminhtml/system_config_backend_encrypted</backend_model>
+							<sort_order>70</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>1</show_in_website>
+							<show_in_store>1</show_in_store>
+							<comment>Value provided by Safecharge.</comment>
+							<tooltip>Value provided by Safecharge.</tooltip>
+						</sandbox_merchant_id>
+						<sandbox_merchant_site_id translate="label comment tooltip">
+							<label>Sandbox Merchant Site Id</label>
+							<frontend_type>text</frontend_type>
+							<sort_order>80</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>1</show_in_website>
+							<show_in_store>1</show_in_store>
+							<comment>Value provided by Safecharge.</comment>
+							<tooltip>Value provided by Safecharge.</tooltip>
+						</sandbox_merchant_site_id>
+						<sandbox_merchant_secret_key translate="label comment tooltip">
+							<label>Sandbox Merchant Secret Key</label>
+							<frontend_type>obscure</frontend_type>
+							<backend_model>adminhtml/system_config_backend_encrypted</backend_model>
+							<sort_order>90</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>1</show_in_website>
+							<show_in_store>1</show_in_store>
+							<comment>Value provided by Safecharge.</comment>
+							<tooltip>Value provided by Safecharge.</tooltip>
+						</sandbox_merchant_secret_key>
+						<enable_cc_detection translate="label comment tooltip">
+							<label>Enable Credit Card Auto-Detection on Storefront</label>
+							<frontend_type>select</frontend_type>
+							<source_model>adminhtml/system_config_source_yesno</source_model>
+							<sort_order>100</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>1</show_in_website>
+							<show_in_store>1</show_in_store>
+							<comment>Typing in a credit card number will automatically select the credit card type.</comment>
+							<tooltip>Typing in a credit card number will automatically select the credit card type.</tooltip>
+						</enable_cc_detection>
+						<payment_action translate="label comment tooltip">
+							<label>Payment Action</label>
+							<frontend_type>select</frontend_type>
+							<source_model>safecharge_safecharge/source_paymentAction</source_model>
+							<sort_order>110</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>1</show_in_website>
+							<show_in_store>1</show_in_store>
+						</payment_action>
+						<payment_solution translate="label comment tooltip">
+							<label>Payment Solution</label>
+							<frontend_type>select</frontend_type>
+							<source_model>safecharge_safecharge/source_paymentSolution</source_model>
+							<sort_order>120</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>1</show_in_website>
+							<show_in_store>1</show_in_store>
+						</payment_solution>
+						<currency translate="label comment tooltip">
+							<label>Accepted Currency</label>
+							<frontend_type>select</frontend_type>
+							<source_model>adminhtml/system_config_source_currency</source_model>
+							<sort_order>140</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>1</show_in_website>
+							<show_in_store>1</show_in_store>
+						</currency>
+						<use_vault translate="label comment tooltip">
+							<label>Use Vault</label>
+							<frontend_type>select</frontend_type>
+							<source_model>adminhtml/system_config_source_yesno</source_model>
+							<sort_order>150</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>1</show_in_website>
+							<show_in_store>1</show_in_store>
+						</use_vault>
+						<debug translate="label comment tooltip">
+							<label>Debug</label>
+							<frontend_type>select</frontend_type>
+							<source_model>adminhtml/system_config_source_yesno</source_model>
+							<sort_order>160</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>1</show_in_website>
+							<show_in_store>1</show_in_store>
+						</debug>
+						<cctypes translate="label comment tooltip">
+							<label>Credit Card Types</label>
+							<frontend_type>multiselect</frontend_type>
+							<source_model>safecharge_safecharge/source_cctype</source_model>
+							<sort_order>170</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>1</show_in_website>
+							<show_in_store>1</show_in_store>
+						</cctypes>
+						<min_order_total translate="label comment tooltip">
+							<label>Minimum Order Total</label>
+							<frontend_type>text</frontend_type>
+							<sort_order>180</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>1</show_in_website>
+							<show_in_store>1</show_in_store>
+						</min_order_total>
+						<max_order_total translate="label comment tooltip">
+							<label>Maximum Order Total</label>
+							<frontend_type>text</frontend_type>
+							<sort_order>190</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>1</show_in_website>
+							<show_in_store>1</show_in_store>
+						</max_order_total>
+						<sort_order translate="label comment tooltip">
+							<label>Sort Order</label>
+							<frontend_type>text</frontend_type>
+							<sort_order>200</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>1</show_in_website>
+							<show_in_store>1</show_in_store>
+							<frontend_class>validate-number</frontend_class>
+						</sort_order>
+						<allowspecific translate="label comment tooltip">
+							<label>Payment from Applicable Countries</label>
+							<frontend_type>allowspecific</frontend_type>
+							<sort_order>210</sort_order>
+							<source_model>adminhtml/system_config_source_payment_allspecificcountries</source_model>
+							<show_in_default>1</show_in_default>
+							<show_in_website>1</show_in_website>
+							<show_in_store>1</show_in_store>
+						</allowspecific>
+						<specificcountry translate="label comment tooltip">
+							<label>Payment from Specific Countries</label>
+							<frontend_type>multiselect</frontend_type>
+							<sort_order>220</sort_order>
+							<source_model>adminhtml/system_config_source_country</source_model>
+							<show_in_default>1</show_in_default>
+							<show_in_website>1</show_in_website>
+							<show_in_store>1</show_in_store>
+						</specificcountry>
+					</fields>
+				</safecharge>
+			</groups>
+		</payment>
+	</sections>
+</config>

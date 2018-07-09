@@ -1,0 +1,42 @@
+<?xml version="1.0"?>
+<layout version="0.1.0">
+    <checkout_onepage_index translate="label">
+        <reference name="head">
+            <action method="addItem">
+                <type>skin_js</type>
+                <name>/js/safecharge/safecharge.js</name>
+            </action>
+            <action method="addItem">
+                <type>skin_css</type>
+                <name>/css/safecharge/safecharge.css</name>
+                <params/>
+            </action>
+        </reference>
+    </checkout_onepage_index>
+
+    <safecharge_safecharge_payment_authenticate>
+        <block type="safecharge_safecharge/payment_authenticate_form"
+               name="root"
+               output="toHtml"
+               template="safecharge/safecharge/payment/authenticate/form.phtml"/>
+    </safecharge_safecharge_payment_authenticate>
+
+    <safecharge_safecharge_vault_cards>
+        <update handle="customer_account"/>
+        <reference name="my.account.wrapper">
+            <block type="safecharge_safecharge/vault_cards"
+                   name="safecharge_safecharge_vault_cards"
+                   template="safecharge/safecharge/vault/cards.phtml"/>
+        </reference>
+    </safecharge_safecharge_vault_cards>
+
+    <customer_account>
+        <reference name="customer_account_navigation">
+            <action method="addLink">
+                <name>safecharge_safecharge_vault_cards</name>
+                <path>safecharge/vault/cards</path>
+                <label>Saved Credit Cards</label>
+            </action>
+        </reference>
+    </customer_account>
+</layout>

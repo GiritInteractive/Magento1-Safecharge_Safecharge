@@ -1,0 +1,20 @@
+<?php
+/**
+ * @var Safecharge_Safecharge_Block_Payment_Authenticate_Form $this
+ */
+?>
+<form name="safecharge_authenticate"
+      id="safecharge_authenticate"
+      action="<?php /* @noEscape */ echo $this->getAscUrl(); ?>"
+      method="POST">
+    <input type="hidden" name="PaReq" value="<?php /* @noEscape */ echo $this->getPaReq(); ?>">
+    <input type="hidden" name="TermUrl" value="<?php /* @noEscape */ echo $this->getTermUrl(); ?>">
+</form>
+<script type="text/javascript">
+    window.onload = function() {
+        setTimeout(function() { submitForm(); }, 100);
+        function submitForm() {
+            document.getElementById("safecharge_authenticate").submit();
+        }
+    }
+</script>

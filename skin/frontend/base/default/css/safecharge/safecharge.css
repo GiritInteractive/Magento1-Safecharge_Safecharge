@@ -1,0 +1,19 @@
+.safecharge-cc-type-images-container .safecharge-cc-type-image {
+    display: inline-block;
+    margin-right: 5px;
+    -webkit-filter: grayscale(100%);
+    filter: grayscale(100%);
+}
+
+.safecharge-cc-type-images-container .safecharge-cc-type-image.active {
+    -webkit-filter: grayscale(0%);
+    filter: grayscale(0%);
+}
+
+.safecharge-list-item {
+    display: none;
+}
+
+.safecharge-list-item.active {
+    display: block;
+}

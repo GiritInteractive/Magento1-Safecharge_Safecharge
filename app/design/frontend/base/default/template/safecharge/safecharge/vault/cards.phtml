@@ -1,0 +1,53 @@
+<div class="safecharge-saved-credit-cards">
+    <div class="page-title">
+        <h1><?php echo $this->__('Saved Credit Cards') ?></h1>
+    </div>
+    <?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
+
+    <?php $ccTokens = $this->getCcTokens(); ?>
+    <?php if (!empty($ccTokens)) : ?>
+        <table class="data-table" id="safecharge-saved-credit-cards-table">
+            <col width="1"/>
+            <col width="1"/>
+            <col width="1"/>
+            <col width="1"/>
+            <col width="1"/>
+            <thead>
+            <tr>
+                <th><?php echo $this->__('Card Type') ?></th>
+                <th><?php echo $this->__('Card Number') ?></th>
+                <th><?php echo $this->__('Exp. Month') ?></th>
+                <th><?php echo $this->__('Exp. Year') ?></th>
+                <th>&nbsp;</th>
+            </tr>
+            </thead>
+            <tbody>
+            <?php foreach ($ccTokens as $ccHash => $ccToken): ?>
+                <tr>
+                    <td>
+                        <?php if ($ccToken['type_image']) : ?>
+                            <div style="float:left;margin-right:10px;">
+                                <img style="float:left;margin-top:-6px;" src="<?php echo $ccToken['type_image'] ?>"/>
+                            </div>
+                        <?php endif; ?>
+                        <span style="float:left;"><?php echo $ccToken['type_label'] ?></span>
+                    </td>
+                    <td><?php echo $ccToken['cc_number'] ?></td>
+                    <td><?php echo $ccToken['exp_month'] ?></td>
+                    <td><?php echo $ccToken['exp_year'] ?></td>
+                    <td class="a-center">
+                            <span class="nobr">
+                                <a href="<?php echo $this->getDeleteUrl($ccHash) ?>"
+                                   class="link-reorder"><?php echo $this->__('Delete Card') ?></a>
+                            </span>
+                    </td>
+                </tr>
+            <?php endforeach; ?>
+            </tbody>
+        </table>
+
+        <script type="text/javascript">decorateTable('my-orders-table')</script>
+    <?php else: ?>
+        <p><?php echo $this->__('No saved credit cards to display.'); ?></p>
+    <?php endif; ?>
+</div>

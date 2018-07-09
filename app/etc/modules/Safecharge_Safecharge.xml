@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <Safecharge_Safecharge>
+            <active>true</active>
+            <codePool>community</codePool>
+        </Safecharge_Safecharge>
+    </modules>
+</config>
