@@ -1,18 +1,123 @@
-<?xml version="1.0"?>
-<package>
-    <name>Safecharge_Safecharge</name>
-    <version>1.0.0</version>
-    <stability>stable</stability>
-    <license uri="https://www.gnu.org/licenses/gpl-3.0.html">Community GPL</license>
-    <channel>community</channel>
-    <extends/>
-    <summary>Magento extension for Safecharge payment gateway.</summary>
-    <description>Magento extension for Safecharge payment gateway.</description>
-    <notes>- Extension release.</notes>
-    <authors><author><name>Safecharge</name><user>Safecharge</user><email>safecharge@safecharge.com</email></author></authors>
-    <date>2018-07-09</date>
-    <time>10:21:11</time>
-    <contents><target name="mageetc"><dir name="modules"><file name="Safecharge_Safecharge.xml" hash="bea242f12954b65ba98a9eed3bc37206"/></dir></target><target name="magecommunity"><dir name="Safecharge"><dir name="Safecharge"><dir name="Block"><dir name="Form"><file name="Cc.php" hash="ee3a72180e3840081b6db88996b97a56"/></dir><dir name="Info"><file name="Cc.php" hash="5d80b83efad7590c8fae625a2f40c145"/></dir><dir name="Payment"><dir name="Authenticate"><file name="Form.php" hash="ab114b072372dfcd5486780411332a6c"/></dir></dir><dir name="Vault"><file name="Cards.php" hash="c0cfaed13889f823bda3125c99b8f5fc"/></dir></dir><dir name="Helper"><file name="Config.php" hash="931baef152b4d46fcd33b834b76fb4c0"/><file name="Data.php" hash="87d790676bba5bc1d2299d894a34522f"/><file name="Log.php" hash="ea5e75104ae01bb0fd5736e6f9108c5b"/><file name="UrlBuilder.php" hash="6a45ffc6ba0886719b5d8499dd5d848f"/></dir><dir name="Model"><dir name="Api"><file name="Curl.php" hash="c56eaee06b55846cdc04fd31686963f1"/><dir name="Request"><file name="Abstract.php" hash="7e9c0f0a27f2560278b9e20d068be516"/><file name="Factory.php" hash="459b4ed57369c3802aae555246b50073"/><dir name="Payment"><file name="Abstract.php" hash="baba4779c34d11890907c64d6da3f711"/><file name="Cancel.php" hash="1f280720b90e643eabd01daacf315953"/><file name="CardTokenization.php" hash="a9c9827b994fd5b06670ea6df4e5f0a9"/><file name="Cc.php" hash="29fa9ace6f29b1f3436c61a5ee090070"/><file name="Dynamic3D.php" hash="960ab66f78c230c62f26e54534afdec2"/><file name="Factory.php" hash="ca1d8a42f91ce9ddcec0dafb958a0d95"/><file name="Payment3D.php" hash="1b123669a1916e80f6c4a74d3277234c"/><file name="Refund.php" hash="59b5980c2842260e04ab6b67510693a4"/><file name="Settle.php" hash="34a3819bb1c139eacf44722ca874ef03"/><file name="UserPaymentOption.php" hash="90035854fdbb5c35dbaf5d0eaf6a6bb1"/></dir><file name="Token.php" hash="23b593efd406279939277b81907e03ef"/></dir><dir name="Response"><file name="Abstract.php" hash="e7bc95212b59f40304f3ee371bc030e2"/><file name="Factory.php" hash="ba94242c011af90c908b822b25173340"/><dir name="Payment"><file name="Abstract.php" hash="627c070284d3aa1d79851a9d107d8108"/><file name="Cancel.php" hash="24184ef10f068aa968d18530f00b452c"/><file name="CardTokenization.php" hash="b9d8a20a54f703c95f4baffc9e9fe0c1"/><file name="Cc.php" hash="3a8f5033db4069e2db834b6f4558cf84"/><file name="Dynamic3D.php" hash="47897de7704116be764b7d28a9fb5e20"/><file name="Factory.php" hash="1424132a7ff28b8b925afc490fa081b7"/><file name="Payment3D.php" hash="53b5c4cc6a22b6847a578a2a7681a8e5"/><file name="Refund.php" hash="c3226165ebadd4d5393b2e67f6f0ec1c"/><file name="Settle.php" hash="3c55e171797c2a3dc90e643d5e46d7aa"/><file name="UserPaymentOption.php" hash="a2c754cc69336eec5330b1dfe53b860f"/></dir><file name="Token.php" hash="03c7f1f1386f37584e40583cb6a76425"/></dir></dir><file name="Observer.php" hash="82f1eee22c550a64cd1d4e4645ac5bb5"/><file name="Request.php" hash="b3f7cf20b346fddf36f7e482b990ad1e"/><dir name="Resource"><dir name="Request"><file name="Collection.php" hash="fa10e218e60c1bedc258d57f28bef2a1"/></dir><file name="Request.php" hash="ffb0f7ba0e16d7c10affecf44773acba"/><dir name="Vault"><file name="Collection.php" hash="75834e78418b389b6add62d33e1c91c5"/></dir><file name="Vault.php" hash="0754f0ffcbcf2536c07e20dab0c90819"/></dir><file name="Safecharge.php" hash="9823fee88651ef8a1ea10135abaaeb52"/><dir name="Service"><file name="CardTokenization.php" hash="c874811da4c0f35dd8fa27c854df7deb"/></dir><dir name="Source"><file name="Cctype.php" hash="5d3abba6b70d95d8f5d010d43cc3888c"/><file name="Mode.php" hash="d02dfa56a68785dc183b996a87a37961"/><file name="PaymentAction.php" hash="c84edc2dcd2975a0dfc448f34b2c6792"/><file name="PaymentSolution.php" hash="f389c02dcdc096a0b30bd37969bddf4d"/></dir><file name="Vault.php" hash="cf31f86f7b97b543e2b8f27b218b47d1"/></dir><dir name="controllers"><dir name="Payment"><file name="RedirectController.php" hash="a694c36ab41234cc55783179562fdc30"/></dir><file name="PaymentController.php" hash="b81b4436afde7ef18a386e6d77190b29"/><file name="VaultController.php" hash="e9d5d7d236f3261e3fc5a9453ebe37a1"/></dir><dir name="etc"><file name="config.xml" hash="21f6d02a7873e6ed8f940e125101382a"/><file name="system.xml" hash="db2feb3b4e4aea6b235d0ba049416360"/></dir><dir name="sql"><dir name="safecharge_safecharge_setup"><file name="install-1.0.0.php" hash="4dae30d8c77626d22914a3abd29d3bc1"/></dir></dir></dir></dir></target><target name="magedesign"><dir name="adminhtml"><dir name="default"><dir name="default"><dir name="template"><dir name="safecharge"><dir name="safecharge"><dir name="form"><file name="cc.phtml" hash="dd8f5c24c3c7b04555d08726a9796194"/></dir><dir name="info"><file name="default.phtml" hash="811f6f3931c63241d0544995adec502b"/></dir></dir></dir></dir></dir></dir></dir><dir name="frontend"><dir name="base"><dir name="default"><dir name="template"><dir name="safecharge"><dir name="safecharge"><dir name="form"><file name="cc.phtml" hash="4658d49a83390c07e3a4d1f7bcba7a6a"/></dir><dir name="info"><file name="default.phtml" hash="3f3e206a158f5c4f3fe778de9c8ef611"/></dir><dir name="payment"><dir name="authenticate"><file name="form.phtml" hash="4e7b54576546ba1fa1dfb1fc324e46c9"/></dir></dir><dir name="vault"><file name="cards.phtml" hash="7d36ab9badcb08e5ca132a4f6063b122"/></dir></dir></dir></dir><dir name="layout"><dir name="safecharge"><file name="safecharge.xml" hash="f3700c5a06fb45d9c6e99c8d1d727408"/></dir></dir></dir></dir></dir></target><target name="magelocale"><dir name="en_US"><file name="Safecharge_Safecharge.csv" hash="36c918a4f5c661b3155429ae42545f58"/></dir></target><target name="mageskin"><dir name="frontend"><dir name="base"><dir name="default"><dir name="css"><dir name="safecharge"><file name="safecharge.css" hash="00faadff7255c6b51ecf1136847870bd"/></dir></dir><dir name="images"><dir name="safecharge"><file name="AE.png" hash="60d0b13ed50b93a78923cd2f0c220cec"/><file name="DC.png" hash="07021492d1da5aff90787d53a9d7d885"/><file name="DI.png" hash="cd5851853eabf8a00e850e0a9f0f1d3f"/><file name="JCB.png" hash="eaa4dff35b87a40f8214f7c5c0d921ed"/><file name="MC.png" hash="c1d0932dc97279105ae57248bb7eb784"/><file name="VI.png" hash="376392fbb99136f6f9955ae5bb7a11f3"/></dir></dir><dir name="js"><dir name="safecharge"><file name="safecharge.js" hash="e414bc68cec54b87caa3434e581d7ccf"/></dir></dir></dir></dir></dir></target></contents>
-    <compatible/>
-    <dependencies><required><php><min>5.3.0</min><max>7.1.18</max></php><extension><name>curl</name><min/><max/></extension></required></dependencies>
-</package>
+<_>
+   <form_key>0iR4Yx3xlWl9wMyN</form_key>
+   <name>Safecharge_Safecharge</name>
+   <channel>community</channel>
+   <version_ids>
+      <version_ids>2</version_ids>
+   </version_ids>
+   <summary>Magento extension for Safecharge payment gateway.</summary>
+   <description>Magento extension for Safecharge payment gateway.</description>
+   <license>Community GPL</license>
+   <license_uri>https://www.gnu.org/licenses/gpl-3.0.html</license_uri>
+   <version>1.0.0</version>
+   <stability>stable</stability>
+   <notes>- Extension release.</notes>
+   <authors>
+      <name>
+         <name>Safecharge</name>
+      </name>
+      <user>
+         <user>Safecharge</user>
+      </user>
+      <email>
+         <email>safecharge@safecharge.com</email>
+      </email>
+   </authors>
+   <depends_php_min>5.3.0</depends_php_min>
+   <depends_php_max>7.1.19</depends_php_max>
+   <depends>
+      <package>
+         <name>
+            <name/>
+         </name>
+         <channel>
+            <channel/>
+         </channel>
+         <min>
+            <min/>
+         </min>
+         <max>
+            <max/>
+         </max>
+         <files>
+            <files>      </files>
+         </files>
+      </package>
+      <extension>
+         <name>
+            <name>Core</name>
+            <name>curl</name>
+         </name>
+         <min>
+            <min/>
+            <min/>
+         </min>
+         <max>
+            <max/>
+            <max/>
+         </max>
+      </extension>
+   </depends>
+   <contents>
+      <target>
+         <target>magelocal</target>
+         <target>mageetc</target>
+         <target>magecommunity</target>
+         <target>magedesign</target>
+         <target>magedesign</target>
+         <target>magedesign</target>
+         <target>magelocale</target>
+         <target>mageskin</target>
+         <target>mageskin</target>
+         <target>mageskin</target>
+      </target>
+      <path>
+         <path/>
+         <path>modules/Safecharge_Safecharge.xml</path>
+         <path>Safecharge</path>
+         <path>adminhtml/default/default/template/safecharge</path>
+         <path>frontend/base/default/template/safecharge</path>
+         <path>frontend/base/default/layout/safecharge</path>
+         <path>en_US/Safecharge_Safecharge.csv</path>
+         <path>frontend/base/default/css/safecharge</path>
+         <path>frontend/base/default/images/safecharge</path>
+         <path>frontend/base/default/js/safecharge</path>
+      </path>
+      <type>
+         <type>file</type>
+         <type>file</type>
+         <type>dir</type>
+         <type>dir</type>
+         <type>dir</type>
+         <type>dir</type>
+         <type>file</type>
+         <type>dir</type>
+         <type>dir</type>
+         <type>dir</type>
+      </type>
+      <include>
+         <include/>
+         <include/>
+         <include/>
+         <include/>
+         <include/>
+         <include/>
+         <include/>
+         <include/>
+         <include/>
+         <include/>
+      </include>
+      <ignore>
+         <ignore/>
+         <ignore/>
+         <ignore/>
+         <ignore/>
+         <ignore/>
+         <ignore/>
+         <ignore/>
+         <ignore/>
+         <ignore/>
+         <ignore/>
+      </ignore>
+   </contents>
+</_>
