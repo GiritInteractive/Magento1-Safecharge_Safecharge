@@ -174,4 +174,13 @@ class Safecharge_Safecharge_Helper_Config
     {
         return (bool)$this->getConfigValue('useccv');
     }
+
+    /**
+     * @return string
+     */
+    public function getSourcePlatformField()
+    {
+        $magentoVersion =
+        return $magentoVersion Mage::getVersion();
+    }
 }

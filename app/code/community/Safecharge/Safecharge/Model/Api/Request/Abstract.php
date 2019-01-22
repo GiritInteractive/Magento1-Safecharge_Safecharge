@@ -121,6 +121,10 @@ abstract class Safecharge_Safecharge_Model_Api_Request_Abstract
             'merchantSiteId' => $this->config->getMerchantSiteId(),
             'clientRequestId' => $this->getRequestId(),
             'timeStamp' => Mage::getSingleton('core/date')->gmtDate('YmdHis'),
+            'merchantDetails' => [
+              'customField1' => $this->config->getSourcePlatformField(),
+            ],
+            'encoding' => 'UTF-8',
         );
 
         return $params;
