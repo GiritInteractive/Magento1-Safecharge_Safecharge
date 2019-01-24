@@ -313,6 +313,8 @@ abstract class Safecharge_Safecharge_Model_Api_Request_Abstract
                 'state' => $billing->getRegionCode(),
                 'email' => $billing->getEmail(),
             );
+            
+            $orderData = array_merge($orderData, $orderData['billingAddress']);
         }
 
         $orderItems = $order->getAllVisibleItems();
