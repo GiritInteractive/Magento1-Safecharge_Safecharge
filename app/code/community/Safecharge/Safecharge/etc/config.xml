@@ -2,7 +2,7 @@
 <config>
     <modules>
         <Safecharge_Safecharge>
-            <version>0.1.0</version>
+            <version>1.0.0</version>
         </Safecharge_Safecharge>
     </modules>
 
@@ -143,7 +143,6 @@
                 <payment_action>Safecharge_Safecharge_Model_Safecharge::ACTION_AUTHORIZE</payment_action>
                 <payment_solution>Safecharge_Safecharge_Model_Safecharge::PAYMENTSOLUTION_INTEGRATED</payment_solution>
                 <order_status>sc_auth</order_status>
-                <currency>USD</currency>
                 <use_vault>1</use_vault>
                 <useccv>1</useccv>
                 <debug>0</debug>
