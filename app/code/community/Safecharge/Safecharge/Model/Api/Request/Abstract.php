@@ -279,7 +279,7 @@ abstract class Safecharge_Safecharge_Model_Api_Request_Abstract
         $orderData = array(
             'userTokenId' => $order->getCustomerId() ?: $order->getCustomerEmail(),
             'clientUniqueId' => $order->getIncrementId(),
-            'currency' => $order->getCurrencyCode(),
+            'currency' => $order->getOrderCurrencyCode(),
             'amountDetails' => array(
                 'totalShipping' => (float)$order->getBaseShippingAmount(),
                 'totalHandling' => (float)0,
