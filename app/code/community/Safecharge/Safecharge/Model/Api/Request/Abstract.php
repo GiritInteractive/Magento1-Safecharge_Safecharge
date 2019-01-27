@@ -279,7 +279,7 @@ abstract class Safecharge_Safecharge_Model_Api_Request_Abstract
         $orderData = array(
             'userTokenId' => $order->getCustomerId() ?: $order->getCustomerEmail(),
             'clientUniqueId' => $order->getIncrementId(),
-            'currency' => $order->getBaseCurrencyCode(),
+            'currency' => $order->getCurrencyCode(),
             'amountDetails' => array(
                 'totalShipping' => (float)$order->getBaseShippingAmount(),
                 'totalHandling' => (float)0,
@@ -313,7 +313,7 @@ abstract class Safecharge_Safecharge_Model_Api_Request_Abstract
                 'state' => $billing->getRegionCode(),
                 'email' => $billing->getEmail(),
             );
-            
+
             $orderData = array_merge($orderData, $orderData['billingAddress']);
         }
 

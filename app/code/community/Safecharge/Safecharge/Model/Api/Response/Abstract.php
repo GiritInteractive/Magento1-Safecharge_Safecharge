@@ -150,7 +150,7 @@ abstract class Safecharge_Safecharge_Model_Api_Response_Abstract
         ) {
             return false;
         }
-        
+
         return true;
     }
 

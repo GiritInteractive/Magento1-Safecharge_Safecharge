@@ -55,7 +55,7 @@ class Safecharge_Safecharge_Model_Api_Response_Payment_Refund
         if ($responseTransactionStatus === 'error') {
             return false;
         }
-        if ($responseTransactionType !== 'approved') {
+        if ($responseTransactionStatus !== 'approved') {
             return false;
         }
         return true;
