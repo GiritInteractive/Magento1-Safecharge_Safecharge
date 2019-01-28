@@ -15,6 +15,7 @@ abstract class Safecharge_Safecharge_Model_Api_Request_Abstract
     const TEST_ENDPOINT = 'https://ppp-test.safecharge.com/ppp/';
 
     const METHOD_SESSION_TOKEN = 'getSessionToken';
+    const GET_MERCHANT_PAYMENT_METHODS_METHOD = 'getMerchantPaymentMethods';
 
     /**
      * @var Safecharge_Safecharge_Helper_Config

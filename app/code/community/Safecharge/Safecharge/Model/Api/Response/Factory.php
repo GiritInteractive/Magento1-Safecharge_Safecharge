@@ -20,8 +20,11 @@ class Safecharge_Safecharge_Model_Api_Response_Factory
     {
         switch ($method) {
             case Safecharge_Safecharge_Model_Api_Response_Abstract::METHOD_SESSION_TOKEN:
-                $model = $this->getInstance('token');
-                break;
+              $model = $this->getInstance('token');
+              break;
+            case Safecharge_Safecharge_Model_Api_Response_Abstract::GET_MERCHANT_PAYMENT_METHODS_METHOD:
+              $model = $this->getInstance('GetMerchantPaymentMethods');
+              break;
             default:
                 throw new Mage_Core_Exception(
                     __('Unhandled response method.')

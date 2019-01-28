@@ -9,6 +9,7 @@
 abstract class Safecharge_Safecharge_Model_Api_Response_Abstract
 {
     const METHOD_SESSION_TOKEN = 'token';
+    const GET_MERCHANT_PAYMENT_METHODS_METHOD = 'getMerchantPaymentMethods';
 
     /**
      * Response result const.

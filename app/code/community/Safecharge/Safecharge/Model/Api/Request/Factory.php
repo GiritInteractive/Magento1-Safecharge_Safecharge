@@ -21,6 +21,9 @@ class Safecharge_Safecharge_Model_Api_Request_Factory
             case Safecharge_Safecharge_Model_Api_Request_Abstract::METHOD_SESSION_TOKEN:
                 $model = $this->getInstance('token');
                 break;
+            case Safecharge_Safecharge_Model_Api_Request_Abstract::GET_MERCHANT_PAYMENT_METHODS_METHOD:
+                $model = $this->getInstance('getMerchantPaymentMethods');
+                break;
             default:
                 throw new Mage_Core_Exception(
                     __('Unhandled request method.')
