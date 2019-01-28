@@ -15,6 +15,8 @@ abstract class Safecharge_Safecharge_Model_Api_Request_Abstract
     const TEST_ENDPOINT = 'https://ppp-test.safecharge.com/ppp/';
 
     const METHOD_SESSION_TOKEN = 'getSessionToken';
+    const GET_MERCHANT_PAYMENT_METHODS_METHOD = 'getPaymentMethods';
+    const PAYMENT_APM_METHOD = 'paymentApm';
 
     /**
      * @var Safecharge_Safecharge_Helper_Config
@@ -372,5 +374,75 @@ abstract class Safecharge_Safecharge_Model_Api_Request_Abstract
         }
 
         return $data;
+    }
+
+    /**
+     * @param Quote $quote
+     *
+     * @return array
+     */
+    protected function getQuoteData(Quote $quote)
+    {
+        /** @var OrderAddressInterface $billing */
+        $billing = $quote->getBillingAddress();
+
+        $shipping = 0;
+        $shippingAddress = $quote->getShippingAddress();
+        if ($shippingAddress !== null) {
+            $shipping = $shippingAddress->getBaseShippingAmount();
+        }
+
+        $quoteData = [
+            'userTokenId' => $quote->getCustomerId() ?: $quote->getCustomerEmail(),
+            'clientUniqueId' => $quote->getIncrementId(),
+            'currency' => $quote->getBaseCurrencyCode(),
+            'amountDetails' => [
+                'totalShipping' => (float)$shipping,
+                'totalHandling' => (float)0,
+                'totalDiscount' => (float)abs($quote->getBaseDiscountAmount()),
+                'totalTax' => (float)$quote->getBaseTaxAmount(),
+            ],
+            'items' => [],
+            'deviceDetails' => [
+                'deviceType' => 'DESKTOP',
+                'ipAddress' => $quote->getRemoteIp(),
+            ],
+            'ipAddress' => $quote->getRemoteIp(),
+        ];
+
+        if ($billing !== null) {
+            $quoteData['billingAddress'] = [
+                'firstName' => $billing->getFirstname(),
+                'lastName' => $billing->getLastname(),
+                'address' => is_array($billing->getStreet())
+                    ? implode(' ', $billing->getStreet())
+                    : '',
+                'cell' => '',
+                'phone' => $billing->getTelephone(),
+                'zip' => $billing->getPostcode(),
+                'city' => $billing->getCity(),
+                'country' => $billing->getCountryId(),
+                'state' => $billing->getRegionCode(),
+                'email' => $billing->getEmail(),
+            ];
+            $quoteData = array_merge($quoteData, $quoteData['billingAddress']);
+        }
+
+        // Add items details.
+        $quoteItems = $quote->getAllVisibleItems();
+        foreach ($quoteItems as $quoteItem) {
+            $price = (float)$quoteItem->getBasePrice();
+            if (!$price) {
+                continue;
+            }
+
+            $quoteData['items'][] = [
+                'name' => $quoteItem->getName(),
+                'price' => $price,
+                'quantity' => (int)$quoteItem->getQty(),
+            ];
+        }
+
+        return $quoteData;
     }
 }

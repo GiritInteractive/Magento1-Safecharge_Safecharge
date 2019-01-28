@@ -183,4 +183,24 @@ class Safecharge_Safecharge_Helper_Config
       $magentoVersion = Mage::getVersion();
       return $magentoVersion;
     }
+
+    /**
+     * Return AMP Methods.
+     *
+     * @return array
+     */
+    private function getApmMethods()
+    {
+        $request = Mage::getSingleton('safecharge_safecharge/api_request_factory')
+          ->create()
+        $request = $this->requestFactory->create(Safecharge_Safecharge_Model_Api_Request_Abstract::GET_MERCHANT_PAYMENT_METHODS_METHOD);
+
+        try {
+            $apmMethods = $request->process();
+        } catch (PaymentException $e) {
+            return [];
+        }
+
+        return $apmMethods->getPaymentMethods();
+    }
 }
