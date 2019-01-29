@@ -10,6 +10,7 @@ abstract class Safecharge_Safecharge_Model_Api_Response_Abstract
 {
     const METHOD_SESSION_TOKEN = 'token';
     const GET_MERCHANT_PAYMENT_METHODS_METHOD = 'getMerchantPaymentMethods';
+    const PAYMENT_APM_METHOD = 'paymentApm';
 
     /**
      * Response result const.
@@ -73,10 +74,9 @@ abstract class Safecharge_Safecharge_Model_Api_Response_Abstract
     public function process()
     {
         $requestStatus = $this->getRequestStatus();
-
         if (Mage::helper('safecharge_safecharge/config')->isDebugEnabled() === true) {
             Mage::log(
-                'Response: '
+                'ResponseApm: '
                 . var_export($this->prepareResponseData(), true),
                 null,
                 'safecharge_safecharge_payment.log',

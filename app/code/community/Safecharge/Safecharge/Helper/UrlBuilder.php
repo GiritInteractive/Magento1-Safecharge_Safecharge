@@ -24,12 +24,20 @@ class Safecharge_Safecharge_Helper_UrlBuilder
     protected $urlBuilder;
 
     /**
+      * Store id.
+      *
+      * @var int
+      */
+     private $storeId;
+
+    /**
      * Safecharge_Safecharge_Helper_UrlBuilder constructor.
      */
     public function __construct() {
         $this->moduleConfig = Mage::helper('safecharge_safecharge/config');
         $this->checkoutSession = Mage::getSingleton('checkout/session');
         $this->urlBuilder = Mage::getSingleton('core/url');
+        $this->storeId = Mage::app()->getStore()->getStoreId();
     }
 
     /**
@@ -133,7 +141,7 @@ class Safecharge_Safecharge_Helper_UrlBuilder
     /**
      * @return string
      */
-    protected function getSuccessUrl()
+    public function getSuccessUrl()
     {
         $quoteId = $this->checkoutSession->getQuoteId();
 
@@ -146,7 +154,7 @@ class Safecharge_Safecharge_Helper_UrlBuilder
     /**
      * @return string
      */
-    protected function getErrorUrl()
+    public function getErrorUrl()
     {
         $quoteId = $this->checkoutSession->getQuoteId();
 
@@ -159,8 +167,65 @@ class Safecharge_Safecharge_Helper_UrlBuilder
     /**
      * @return string
      */
-    protected function getBackUrl()
+    public function getBackUrl()
     {
         return $this->urlBuilder->getUrl('checkout/cart');
     }
+
+
+    /**
+     * @return string
+     */
+    public function getApmSuccessUrl()
+    {
+        $quoteId = $this->checkoutSession->getQuoteId();
+        return $this->urlBuilder->getUrl(
+            'safecharge/payment_apm/success',
+            array('order' => $quoteId)
+        );
+    }
+    /**
+     * @return string
+     */
+    public function getApmErrorUrl()
+    {
+        $quoteId = $this->checkoutSession->getQuoteId();
+        return $this->urlBuilder->getUrl(
+            'safecharge/payment_apm/error',
+            array('order' => $quoteId)
+        );
+    }
+    /**
+     * @return string
+     */
+    public function getApmPendingUrl()
+    {
+        $quoteId = $this->checkoutSession->getQuoteId();
+        return $this->urlBuilder->getUrl(
+            'safecharge/payment_apm/panding',
+            array('order' => $quoteId)
+        );
+    }
+    /**
+     * @return string
+     */
+    public function getApmDmnUrl($incrementId = null, $storeId = null)
+    {
+        $quoteId = $this->checkoutSession->getQuoteId();
+        $apmDmnUrl = Mage::app()
+          ->getStore((is_null($incrementId)) ? $this->storeId : $storeId)
+          ->getBaseUrl($type). 'safecharge/payment_apm/dmn/order/' . ((is_null($incrementId)) ? $this->getReservedOrderId() : $incrementId);
+        return $apmDmnUrl;
+    }
+
+    public function getReservedOrderId()
+    {
+        $reservedOrderId = $this->checkoutSession->getQuote()->getReservedOrderId();
+        if (!$reservedOrderId) {
+            $this->checkoutSession->getQuote()->reserveOrderId()->save();
+            $reservedOrderId = $this->checkoutSession->getQuote()->getReservedOrderId();
+        }
+        return $reservedOrderId;
+    }
+
 }

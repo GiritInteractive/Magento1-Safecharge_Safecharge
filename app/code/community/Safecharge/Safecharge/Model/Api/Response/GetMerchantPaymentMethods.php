@@ -8,32 +8,36 @@
 class Safecharge_Safecharge_Model_Api_Response_GetMerchantPaymentMethods
     extends Safecharge_Safecharge_Model_Api_Response_Abstract
 {
-   /**
-    * @var array
-    */
+
+  /**
+   * @var array
+   */
   protected $paymentMethods = array();
-    /**
-     * @return string
-     */
+
+  /**
+    * @return string
+    */
   protected function getResponseMethod()
   {
       return self::GET_MERCHANT_PAYMENT_METHODS_METHOD;
   }
+
   /**
    * @return Safecharge_Safecharge_Model_Api_Response_Payment_GetMerchantPaymentMethods
    */
-  protected function process()
+  public function process()
   {
-      parent::process();
-
       $body = $this->curl->getBody();
-      $this->paymentMethods = (array) $body['paymentMethods'];
+      $this->$paymentMethods = (array) $body['paymentMethods'];
+
       $langCode = $this->getStoreLocale(true);
-      foreach ($this->paymentMethods as $k => &$method) {
-        if ($this->config->getPaymentAction() === Safecharge_Safecharge_Model_Safecharge::ACTION_AUTHORIZE_CAPTURE && isset($method["paymentMethod"]) && $method["paymentMethod"] !== 'cc_card'){
+
+      foreach ($this->$paymentMethods as $k => &$method) {
+        if (Mage::helper('safecharge_safecharge/config')->getPaymentAction() === Safecharge_Safecharge_Model_Safecharge::ACTION_AUTHORIZE_CAPTURE && isset($method["paymentMethod"]) && $method["paymentMethod"] !== 'cc_card'){
           unset($this->paymentMethods[$k]);
           continue;
         }
+
         if (isset($method["paymentMethodDisplayName"]) && is_array($method["paymentMethodDisplayName"])) {
           foreach ($method["paymentMethodDisplayName"] as $kk => $dname) {
             if ($dname["language"] === $langCode) {
@@ -49,16 +53,21 @@ class Safecharge_Safecharge_Model_Api_Response_GetMerchantPaymentMethods
           $method["logoURL"] = preg_replace('/\.svg\.svg$/', '.svg', $method["logoURL"]);
         }
       }
+
       $this->paymentMethods = array_values($this->paymentMethods);
+
       return $this;
   }
-  /**
-   * @return string
-   */
-  public function getPaymentMethods()
-  {
-      return $this->paymentMethods;
-  }
+
+      /**
+       * @return string
+       */
+      public function getPaymentMethods()
+      {
+          $body = $this->curl->getBody();
+          return $body['paymentMethods'];
+      }
+
   /**
    * Return store locale.
    *
@@ -69,6 +78,7 @@ class Safecharge_Safecharge_Model_Api_Response_GetMerchantPaymentMethods
       $locale = Mage::app()->getLocale()->getLocaleCode();
       return ($twoLetters) ? substr($locale, 0, 2) : $locale;
   }
+
   /**
    * @return array
    */

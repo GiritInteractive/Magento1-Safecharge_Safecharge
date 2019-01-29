@@ -8,10 +8,7 @@
 class Safecharge_Safecharge_Model_Api_Request_GetMerchantPaymentMethods
     extends Safecharge_Safecharge_Model_Api_Request_Abstract
 {
-      /**
-      * @var Mage_Checkout_Model_Session
-      */
-    protected $checkoutSession = Mage::getSingleton('checkout/session');
+
     /**
      * @return string
      */
@@ -19,13 +16,15 @@ class Safecharge_Safecharge_Model_Api_Request_GetMerchantPaymentMethods
     {
         return Safecharge_Safecharge_Model_Api_Request_Abstract::GET_MERCHANT_PAYMENT_METHODS_METHOD;
     }
+
     /**
      * @return string
      */
     protected function getResponseHandlerType()
     {
-        return Safecharge_Safecharge_Model_Api_Response_Abstract::GET_MERCHANT_PAYMENT_METHODS_HANDLER;
+        return Safecharge_Safecharge_Model_Api_Response_Abstract::GET_MERCHANT_PAYMENT_METHODS_METHOD;
     }
+
     /**
      * @return array
      * @throws Exception
@@ -37,18 +36,20 @@ class Safecharge_Safecharge_Model_Api_Request_GetMerchantPaymentMethods
       $tokenRequest = $this->getRequestFactory()
           ->create(Safecharge_Safecharge_Model_Api_Request_Abstract::METHOD_SESSION_TOKEN);
       $tokenResponse = $tokenRequest->process();
-      $checkoutSession->getQuote();
+      $checkoutSession = Mage::getSingleton('checkout/session');
+      $quote = $checkoutSession->getQuote();
       $billing = ($quote) ? $quote->getBillingAddress() : null;
       $countryCode = ($billing) ? $billing->getCountryId() : null;
       $params = array(
         'sessionToken' => $tokenResponse->getToken(),
         "currencyCode" => $quote->getBaseCurrencyCode(),
         "countryCode" => $countryCode,
-        "languageCode", "eng",
-      )
+        "languageCode"=> "en",
+      );
       $params = array_merge_recursive($params, parent::getParams());
       return $params;
     }
+
     /**
      * @return array
      */
@@ -61,4 +62,6 @@ class Safecharge_Safecharge_Model_Api_Request_GetMerchantPaymentMethods
             'timeStamp',
         );
     }
+
+
 }

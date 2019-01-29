@@ -23,7 +23,10 @@ class Safecharge_Safecharge_Model_Api_Response_Factory
               $model = $this->getInstance('token');
               break;
             case Safecharge_Safecharge_Model_Api_Response_Abstract::GET_MERCHANT_PAYMENT_METHODS_METHOD:
-              $model = $this->getInstance('GetMerchantPaymentMethods');
+              $model = $this->getInstance('getMerchantPaymentMethods');
+              break;
+            case Safecharge_Safecharge_Model_Api_Response_Abstract::PAYMENT_APM_METHOD:
+              $model = $this->getInstance('paymentApm');
               break;
             default:
                 throw new Mage_Core_Exception(
