@@ -212,9 +212,8 @@ class Safecharge_Safecharge_Helper_UrlBuilder
     public function getApmDmnUrl($incrementId = null, $storeId = null)
     {
         $quoteId = $this->checkoutSession->getQuoteId();
-        $apmDmnUrl = Mage::app()
-          ->getStore((is_null($incrementId)) ? $this->storeId : $storeId)
-          ->getBaseUrl($type). 'safecharge/payment_apm/dmn/order/' . ((is_null($incrementId)) ? $this->getReservedOrderId() : $incrementId);
+        $apmDmnUrl = $this->urlBuilder->getUrl(
+          'safecharge/payment_apm/dmn/order/' . ((is_null($incrementId)) ? $this->getReservedOrderId() : $incrementId));
         return $apmDmnUrl;
     }
 

@@ -153,6 +153,15 @@
                 <allowspecific>0</allowspecific>
                 <specificcountry/>
             </safecharge>
+            <safechargeapm>
+              <model>safecharge_safecharge/apm</model>
+              <active>1</active>
+              <order_status>sc_auth</order_status>
+              <title>Additonal Safecharge Methods</title>
+              <allowspecific>0</allowspecific>
+              <sort_order>60</sort_order>
+              <payment_action>sale</payment_action>
+            </safechargeapm>
         </payment>
     </default>
 

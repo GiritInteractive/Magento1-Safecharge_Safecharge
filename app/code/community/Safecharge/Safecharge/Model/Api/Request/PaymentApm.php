@@ -43,7 +43,7 @@ class Safecharge_Safecharge_Model_Api_Request_PaymentApm
    */
   protected function getRequestMethod()
   {
-      return self::PAYMENT_APM_METHOD;
+      return Safecharge_Safecharge_Model_Api_Request_Abstract::PAYMENT_APM_METHOD;
   }
 
    /**
@@ -53,7 +53,7 @@ class Safecharge_Safecharge_Model_Api_Request_PaymentApm
     */
    protected function getResponseHandlerType()
    {
-      return Safecharge_Safecharge_Model_Api_Response_Factory::PAYMENT_APM_METHOD;
+      return Safecharge_Safecharge_Model_Api_Response_Abstract::PAYMENT_APM_METHOD;
    }
 
     /**
@@ -84,29 +84,28 @@ class Safecharge_Safecharge_Model_Api_Request_PaymentApm
             Safecharge_Safecharge_Model_Safecharge::TRANSACTION_SESSION_TOKEN,
             $tokenResponse->getToken()
         );
+        $urlBuilderHelper = Mage::helper('safecharge_safecharge/urlBuilder');
 
-        $reservedOrderId = $quotePayment->getAdditionalInformation(Safecharge_Safecharge_Model_Safecharge::TRANSACTION_ORDER_ID);
+       $notificationUrl = $urlBuilderHelper->getApmDmnUrl($urlBuilderHelper->getReservedOrderId());
 
         $params = array_merge_recursive(
             $this->getQuoteData($quote),
             [
-                'orderId' => $reservedOrderId,
                 'sessionToken' => $tokenResponse->getToken(),
                 'amount' => (float)$quote->getGrandTotal(),
-                'merchant_unique_id' => $reservedOrderId,
+                'merchant_unique_id' => $urlBuilderHelper->getReservedOrderId(),
                 'urlDetails' => [
-                    'successUrl' => Mage::helper('safecharge_safecharge/urlBuilder')->getApmSuccessUrl(),
-                    'failureUrl' => Mage::helper('safecharge_safecharge/urlBuilder')->getApmErrorUrl(),
-                    'pendingUrl' => Mage::helper('safecharge_safecharge/urlBuilder')->getApmPendingUrl(),
-                    'backUrl' => Mage::helper('safecharge_safecharge/urlBuilder')->getBackUrl(),
-                    'notificationUrl' => $this->getPaymentMethod(),
+                    'successUrl' => $urlBuilderHelper->getApmSuccessUrl(),
+                    'failureUrl' => $urlBuilderHelper->getApmErrorUrl(),
+                    'pendingUrl' => $urlBuilderHelper->getApmPendingUrl(),
+                    'backUrl' => $urlBuilderHelper->getBackUrl(),
+                    'notificationUrl' => $notificationUrl,
                 ],
                 'paymentMethod' => $this->getPaymentMethod(),
             ]
         );
 
         $params = array_merge_recursive($params, parent::getParams());
-
 
         return $params;
     }

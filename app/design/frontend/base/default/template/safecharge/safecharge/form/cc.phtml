@@ -2,8 +2,9 @@
 /**
  * @var Safecharge_Safecharge_Block_Form_Cc $this
  */
+ $paymentMethods = $this->getPaymentMethods();
 ?>
-<?php $_code = $this->getMethodCode() ?>
+<?php $_code = $this->getMethodCode(); ?>
 
 <?php if (!$this->useExternalSolution()): ?>
 <ul class="form-list" id="payment_form_<?php echo $_code ?>" style="display:none;">
@@ -213,11 +214,11 @@
 </ul>
 <?php else: ?>
 <ul class="form-list" id="payment_form_<?php echo $_code ?>" style="display:none;">
-    <li>
-        <div>
-            <?php echo __('You will be redirected to our secure payment page when you place an order.') ?>
-        </div>
-    </li>
+  <li>
+      <div>
+          <?php echo __('You will be redirected to our secure payment page when you place an order.') ?>
+      </div>
+  </li>
 </ul>
 <?php endif; ?>
 

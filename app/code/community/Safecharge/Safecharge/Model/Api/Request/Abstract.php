@@ -243,7 +243,6 @@ abstract class Safecharge_Safecharge_Model_Api_Request_Abstract
                 )
             )
             ->save();
-
         $this->curl->post($endpoint, $headers, $params);
 
         return $this;
@@ -395,7 +394,7 @@ abstract class Safecharge_Safecharge_Model_Api_Request_Abstract
 
         $quoteData = [
             'userTokenId' => $quote->getCustomerId() ?: $quote->getCustomerEmail(),
-            'clientUniqueId' => $quote->getIncrementId(),
+            'clientUniqueId' => $quote->getReservedOrderId(),
             'currency' => $quote->getBaseCurrencyCode(),
             'amountDetails' => [
                 'totalShipping' => (float)$shipping,

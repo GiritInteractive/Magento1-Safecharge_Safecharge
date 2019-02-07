@@ -6,7 +6,7 @@
  * @package  Safecharge_Safecharge
  */
 class Safecharge_Safecharge_Model_Api_Response_PaymentApm
-   extends Safecharge_Safecharge_Model_Api_Response_Abstract
+    extends Safecharge_Safecharge_Model_Api_Response_Abstract
 {
   /**
    * @var string
@@ -19,13 +19,20 @@ class Safecharge_Safecharge_Model_Api_Response_PaymentApm
   protected $responseStatus = "";
 
   /**
+    * @return string
+    */
+  protected function getResponseMethod()
+  {
+      return self::PAYMENT_APM_METHOD;
+  }
+
+  /**
    * @return PaymentApm
    */
   public function process()
   {
-      parent::process();
-
       $body = $this->curl->getBody();
+      var_dump($body);
       $this->redirectUrl = (string) $body['redirectURL'];
       $this->responseStatus = (string) $body['status'];
 
@@ -53,9 +60,12 @@ class Safecharge_Safecharge_Model_Api_Response_PaymentApm
    */
   protected function getRequiredResponseDataKeys()
   {
-      return array(
+    return array_merge_recursive(
+        parent::getRequiredResponseDataKeys(),
+        array(
           'redirectURL',
           'status',
-      );
+        )
+    );
   }
 }
