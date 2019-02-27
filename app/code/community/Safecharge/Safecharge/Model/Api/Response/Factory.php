@@ -26,7 +26,7 @@ class Safecharge_Safecharge_Model_Api_Response_Factory
               $model = $this->getInstance('getMerchantPaymentMethods');
               break;
             case Safecharge_Safecharge_Model_Api_Response_Abstract::PAYMENT_APM_METHOD:
-              $model = $this->getInstance('paymentApm');
+              $model = $this->getInstance('paymentAPM');
               break;
             default:
                 throw new Mage_Core_Exception(

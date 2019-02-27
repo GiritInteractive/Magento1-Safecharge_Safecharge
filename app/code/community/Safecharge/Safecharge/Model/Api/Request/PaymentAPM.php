@@ -5,7 +5,7 @@
  * @category Safecharge
  * @package  Safecharge_Safecharge
  */
-class Safecharge_Safecharge_Model_Api_Request_PaymentApm
+class Safecharge_Safecharge_Model_Api_Request_PaymentAPM
     extends Safecharge_Safecharge_Model_Api_Request_Abstract
 {
   /**
@@ -67,8 +67,9 @@ class Safecharge_Safecharge_Model_Api_Request_PaymentApm
 
         /** @var Quote $quote */
         $checkoutSession = Mage::getSingleton('checkout/session');
-        $quote = $checkoutSession->getQuote();
-
+        $quoteId = Mage::getSingleton('checkout/session')->getLastQuoteId();
+        $store = Mage::app()->getStore();
+        $quote = Mage::getModel('sales/quote')->setStore($store)->load($quoteId);
         $quotePayment = $quote->getPayment();
 
         $tokenRequest = $this->getRequestFactory()
@@ -95,9 +96,9 @@ class Safecharge_Safecharge_Model_Api_Request_PaymentApm
                 'amount' => (float)$quote->getGrandTotal(),
                 'merchant_unique_id' => $urlBuilderHelper->getReservedOrderId(),
                 'urlDetails' => [
-                    'successUrl' => $urlBuilderHelper->getApmSuccessUrl(),
-                    'failureUrl' => $urlBuilderHelper->getApmErrorUrl(),
-                    'pendingUrl' => $urlBuilderHelper->getApmPendingUrl(),
+                    'successUrl' => $urlBuilderHelper->getSuccessUrl(),
+                    'failureUrl' => $urlBuilderHelper->getErrorUrl(),
+                    'pendingUrl' => $urlBuilderHelper->getPendingUrl(),
                     'backUrl' => $urlBuilderHelper->getBackUrl(),
                     'notificationUrl' => $notificationUrl,
                 ],
@@ -106,7 +107,6 @@ class Safecharge_Safecharge_Model_Api_Request_PaymentApm
         );
 
         $params = array_merge_recursive($params, parent::getParams());
-
         return $params;
     }
 

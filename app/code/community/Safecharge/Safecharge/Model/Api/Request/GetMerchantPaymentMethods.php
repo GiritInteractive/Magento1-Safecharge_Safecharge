@@ -47,7 +47,6 @@ class Safecharge_Safecharge_Model_Api_Request_GetMerchantPaymentMethods
         "languageCode"=> "en",
       );
       $params = array_merge_recursive($params, parent::getParams());
-      Mage::log($params, null, 'file1234.log',true);
       return $params;
     }
 

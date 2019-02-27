@@ -16,7 +16,7 @@ abstract class Safecharge_Safecharge_Model_Api_Request_Abstract
 
     const METHOD_SESSION_TOKEN = 'getSessionToken';
     const GET_MERCHANT_PAYMENT_METHODS_METHOD = 'getMerchantPaymentMethods';
-    const PAYMENT_APM_METHOD = 'paymentApm';
+    const PAYMENT_APM_METHOD = 'paymentAPM';
 
 
     /**
@@ -54,6 +54,7 @@ abstract class Safecharge_Safecharge_Model_Api_Request_Abstract
         }
 
         $endpoint .= 'api/v1/';
+
         $method = $this->getRequestMethod();
         $endpoint = $endpoint . $method . '.do';
 
@@ -244,7 +245,6 @@ abstract class Safecharge_Safecharge_Model_Api_Request_Abstract
             )
             ->save();
         $this->curl->post($endpoint, $headers, $params);
-
         return $this;
     }
 
@@ -383,6 +383,7 @@ abstract class Safecharge_Safecharge_Model_Api_Request_Abstract
      */
     protected function getQuoteData($quote)
     {
+
         /** @var OrderAddressInterface $billing */
         $billing = $quote->getBillingAddress();
 
@@ -442,7 +443,6 @@ abstract class Safecharge_Safecharge_Model_Api_Request_Abstract
                 'quantity' => (int)$quoteItem->getQty(),
             ];
         }
-
         return $quoteData;
     }
 }

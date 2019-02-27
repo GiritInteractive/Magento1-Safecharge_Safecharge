@@ -32,10 +32,6 @@ class Safecharge_Safecharge_Model_Apm extends Mage_Payment_Model_Method_Abstract
      {
        $errorCode = 'invalid_data';
        $errorMsg = $this->_getHelper()->__("please Select Payment method");
-     }
-
-     if ($errorMsg)
-     {
        Mage::throwException($errorMsg);
      }
 

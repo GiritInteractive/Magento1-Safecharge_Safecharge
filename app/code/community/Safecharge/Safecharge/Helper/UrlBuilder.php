@@ -167,45 +167,24 @@ class Safecharge_Safecharge_Helper_UrlBuilder
     /**
      * @return string
      */
+    public function getPendingUrl()
+    {
+        $quoteId = $this->checkoutSession->getQuoteId();
+
+        return $this->urlBuilder->getUrl(
+            'safecharge/payment_redirect/pending',
+            array('order' => $quoteId)
+        );
+    }
+
+    /**
+     * @return string
+     */
     public function getBackUrl()
     {
         return $this->urlBuilder->getUrl('checkout/cart');
     }
 
-
-    /**
-     * @return string
-     */
-    public function getApmSuccessUrl()
-    {
-        $quoteId = $this->checkoutSession->getQuoteId();
-        return $this->urlBuilder->getUrl(
-            'safecharge/payment_apm/success',
-            array('order' => $quoteId)
-        );
-    }
-    /**
-     * @return string
-     */
-    public function getApmErrorUrl()
-    {
-        $quoteId = $this->checkoutSession->getQuoteId();
-        return $this->urlBuilder->getUrl(
-            'safecharge/payment_apm/error',
-            array('order' => $quoteId)
-        );
-    }
-    /**
-     * @return string
-     */
-    public function getApmPendingUrl()
-    {
-        $quoteId = $this->checkoutSession->getQuoteId();
-        return $this->urlBuilder->getUrl(
-            'safecharge/payment_apm/panding',
-            array('order' => $quoteId)
-        );
-    }
     /**
      * @return string
      */
@@ -213,7 +192,7 @@ class Safecharge_Safecharge_Helper_UrlBuilder
     {
         $quoteId = $this->checkoutSession->getQuoteId();
         $apmDmnUrl = $this->urlBuilder->getUrl(
-          'safecharge/payment_apm/dmn/order/' . ((is_null($incrementId)) ? $this->getReservedOrderId() : $incrementId));
+          'safecharge/payment_redirect/dmn/order/' . ((is_null($incrementId)) ? $this->getReservedOrderId() : $incrementId));
         return $apmDmnUrl;
     }
 

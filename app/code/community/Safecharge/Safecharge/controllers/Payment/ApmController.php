@@ -17,7 +17,7 @@ class Safecharge_Safecharge_Payment_ApmController
      * @throws Exception
      */
     public function apmAction(){
-
+      $apmMethod = Mage::getSingleton('core/session')->getApmMethod();
       $configHelper = Mage::helper('safecharge_safecharge/config');
       $response = $this->getResponse()
         ->clearHeaders()
@@ -34,56 +34,18 @@ class Safecharge_Safecharge_Payment_ApmController
       try {
         $request = Mage::getModel('safecharge_safecharge/api_request_factory')
         ->create(Safecharge_Safecharge_Model_Api_Request_Abstract::PAYMENT_APM_METHOD);
-        $request->setPaymentMethod('apmgw_expresscheckout');
+        $request->setPaymentMethod($apmMethod);
 
         $response = $request->process();
         $redirectUrl = $response->getRedirectUrl();
-
         $status = $response->getResponseStatus();
       } catch (PaymentException $e) {
         if($configHelper->isDebugEnabled()){
-
+          var_dump($e);
         }
-        return $result->setData([
-          "error" => 1,
-          "redirectUrl" => null,
-          "message" => $e->getMessage()
-        ]);
       }
 
-      return $result->setData([
-        "error" => 0,
-        "redirectUrl" => $redirectUrl,
-        "message" => $status
-      ]);
+      header("Location: $redirectUrl");
+      die();
     }
-
-
-    /**
-     * @return void
-     * @throws Mage_Core_Exception
-     * @throws Varien_Exception
-     * @throws Exception
-     */
-    public function successAction()
-    {
-
-        /*$request = Mage::getModel('safecharge_safecharge/api_request_factory')
-      ->create(Safecharge_Safecharge_Model_Api_Request_Abstract::GET_MERCHANT_PAYMENT_METHODS_METHOD);
-
-
-      $process = $request->process();
-      $paymentMethods = $process->getPaymentMethods();
-      var_dump($paymentMethods);*/
-
-
-
-      $request->setPaymentMethod('apmgw_expresscheckout');
-      $response = $request->process();
-      $redirectUrl = $response->getRedirectUrl();
-      var_dump($redirectUrl);
-
-
-    }
-
 }

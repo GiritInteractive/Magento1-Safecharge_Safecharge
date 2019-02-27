@@ -21,10 +21,7 @@ class Safecharge_Safecharge_Block_Info_Apm extends Mage_Payment_Block_Info
     $additionalInformation = $this->getInfo()->getAdditionalInformation();
 
       foreach ($additionalInformation as $field => $value) {
-          if (in_array($field, $this->hiddenFields, true)) {
-              unset($data[$field]);
-              continue;
-          }
+        Mage::getSingleton('core/session')->setApmMethod($value);
           $data['Payment Method Code'] = $value;
       }
     $transport = parent::_prepareSpecificInformation($transport);

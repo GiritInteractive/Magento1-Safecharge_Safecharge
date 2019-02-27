@@ -5,7 +5,7 @@
  * @category Safecharge
  * @package  Safecharge_Safecharge
  */
-class Safecharge_Safecharge_Model_Api_Response_PaymentApm
+class Safecharge_Safecharge_Model_Api_Response_PaymentAPM
     extends Safecharge_Safecharge_Model_Api_Response_Abstract
 {
   /**
@@ -32,7 +32,6 @@ class Safecharge_Safecharge_Model_Api_Response_PaymentApm
   public function process()
   {
       $body = $this->curl->getBody();
-      var_dump($body);
       $this->redirectUrl = (string) $body['redirectURL'];
       $this->responseStatus = (string) $body['status'];
 
