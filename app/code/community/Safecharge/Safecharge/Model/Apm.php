@@ -16,6 +16,7 @@ class Safecharge_Safecharge_Model_Apm extends Mage_Payment_Model_Method_Abstract
       $this->_code  = 'off';
     }
   }
+
   public function assignData($data)
    {
      $info = $this->getInfoInstance();
@@ -35,12 +36,13 @@ class Safecharge_Safecharge_Model_Apm extends Mage_Payment_Model_Method_Abstract
        Mage::throwException($errorMsg);
      }
 
-   return $this;
-}
-  public function getOrderPlaceRedirectUrl()
-  {
-    return Mage::getUrl('safecharge/payment_apm/apm', array('_secure' => false));
-  }
+     return $this;
+   }
+
+   public function getOrderPlaceRedirectUrl()
+   {
+     return Mage::getUrl('safecharge/payment_apm/apm', array('_secure' => false));
+   }
 
   /**
    * @return bool

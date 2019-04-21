@@ -285,7 +285,7 @@ abstract class Safecharge_Safecharge_Model_Api_Request_Abstract
             'amountDetails' => array(
                 'totalShipping' => (float)$order->getBaseShippingAmount(),
                 'totalHandling' => (float)0,
-                'totalDiscount' => (float)abs($order->getBaseDiscountAmount()),
+                'totalDiscount' => (float)($order->getBaseDiscountAmount()),
                 'totalTax' => (float)$order->getBaseTaxAmount(),
             ),
             'items' => array(),
@@ -401,7 +401,7 @@ abstract class Safecharge_Safecharge_Model_Api_Request_Abstract
                 'totalShipping' => (float)$shipping,
                 'totalHandling' => (float)0,
                 'totalDiscount' => (float)abs($quote->getBaseDiscountAmount()),
-                'totalTax' => (float)$quote->getBaseTaxAmount(),
+                'totalTax' => (float)$quote->getShippingAddress()->getTaxAmount(),
             ],
             'items' => [],
             'deviceDetails' => [

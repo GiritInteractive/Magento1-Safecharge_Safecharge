@@ -88,12 +88,11 @@ class Safecharge_Safecharge_Model_Api_Request_PaymentAPM
         $urlBuilderHelper = Mage::helper('safecharge_safecharge/urlBuilder');
 
        $notificationUrl = $urlBuilderHelper->getApmDmnUrl($urlBuilderHelper->getReservedOrderId());
-
         $params = array_merge_recursive(
             $this->getQuoteData($quote),
             [
                 'sessionToken' => $tokenResponse->getToken(),
-                'amount' => (float)$quote->getGrandTotal(),
+                'amount' => $quote->getBaseGrandTotal(),
                 'merchant_unique_id' => $urlBuilderHelper->getReservedOrderId(),
                 'urlDetails' => [
                     'successUrl' => $urlBuilderHelper->getSuccessUrl(),
@@ -107,6 +106,7 @@ class Safecharge_Safecharge_Model_Api_Request_PaymentAPM
         );
 
         $params = array_merge_recursive($params, parent::getParams());
+        var_dump($params);
         return $params;
     }
 

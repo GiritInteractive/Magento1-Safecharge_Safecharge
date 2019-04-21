@@ -32,6 +32,7 @@ class Safecharge_Safecharge_Model_Api_Response_PaymentAPM
   public function process()
   {
       $body = $this->curl->getBody();
+      var_dump($body);
       $this->redirectUrl = (string) $body['redirectURL'];
       $this->responseStatus = (string) $body['status'];
 
