@@ -2,7 +2,7 @@
 <config>
     <modules>
         <Safecharge_Safecharge>
-            <version>0.1.0</version>
+            <version>1.5.0</version>
         </Safecharge_Safecharge>
     </modules>
 
@@ -90,14 +90,6 @@
                     </safecharge_safecharge_request_entity_persistence>
                 </observers>
             </sales_model_service_quote_submit_failure>
-            <controller_action_predispatch_checkout_onepage_saveOrder>
-                <observers>
-                    <safecharge_safecharge_external_redirect>
-                        <class>safecharge_safecharge/observer</class>
-                        <method>externalSolution</method>
-                    </safecharge_safecharge_external_redirect>
-                </observers>
-            </controller_action_predispatch_checkout_onepage_saveOrder>
         </events>
         <translate>
             <modules>
@@ -143,7 +135,6 @@
                 <payment_action>Safecharge_Safecharge_Model_Safecharge::ACTION_AUTHORIZE</payment_action>
                 <payment_solution>Safecharge_Safecharge_Model_Safecharge::PAYMENTSOLUTION_INTEGRATED</payment_solution>
                 <order_status>sc_auth</order_status>
-                <currency>USD</currency>
                 <use_vault>1</use_vault>
                 <useccv>1</useccv>
                 <debug>0</debug>
@@ -154,6 +145,15 @@
                 <allowspecific>0</allowspecific>
                 <specificcountry/>
             </safecharge>
+            <safechargeapm>
+              <model>safecharge_safecharge/apm</model>
+              <active>1</active>
+              <order_status>sc_auth</order_status>
+              <title>Additonal Payment Methods</title>
+              <allowspecific>0</allowspecific>
+              <sort_order>60</sort_order>
+              <payment_action>sale</payment_action>
+            </safechargeapm>
         </payment>
     </default>
 

@@ -50,10 +50,14 @@ class Safecharge_Safecharge_Model_Api_Response_Payment_Refund
         }
 
         $body = $this->curl->getBody();
-        if (strtolower($body['transactionStatus']) === 'error') {
+
+        $responseTransactionStatus = strtolower(!empty($body['transactionStatus']) ? $body['transactionStatus'] : '');
+        if ($responseTransactionStatus === 'error') {
             return false;
         }
-
+        if ($responseTransactionStatus !== 'approved') {
+            return false;
+        }
         return true;
     }
 

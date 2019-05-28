@@ -130,15 +130,6 @@
 							<show_in_website>1</show_in_website>
 							<show_in_store>1</show_in_store>
 						</payment_solution>
-						<currency translate="label comment tooltip">
-							<label>Accepted Currency</label>
-							<frontend_type>select</frontend_type>
-							<source_model>adminhtml/system_config_source_currency</source_model>
-							<sort_order>140</sort_order>
-							<show_in_default>1</show_in_default>
-							<show_in_website>1</show_in_website>
-							<show_in_store>1</show_in_store>
-						</currency>
 						<use_vault translate="label comment tooltip">
 							<label>Use Vault</label>
 							<frontend_type>select</frontend_type>

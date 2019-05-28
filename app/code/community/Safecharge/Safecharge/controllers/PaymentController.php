@@ -35,19 +35,10 @@ class Safecharge_Safecharge_PaymentController extends Mage_Core_Controller_Front
     /**
      * @return void
      */
-    public function redirectAction()
+    public function externalAction()
     {
-        $url = Mage::helper('safecharge_safecharge/urlBuilder')->getUrl();
-        if ($this->moduleConfig->isDebugEnabled() === true) {
-            Mage::log(
-                'Redirect URL: ' . $url,
-                null,
-                'safecharge_safecharge_payment_redirect.log',
-                true
-            );
-        }
-
-        $this->getResponse()->setBody($url);
+      $this->loadLayout();
+      $this->renderLayout();
     }
 
     /**

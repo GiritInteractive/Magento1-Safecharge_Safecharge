@@ -1,0 +1,9 @@
+app/code/community/Safecharge/Safecharge app/code/community/Safecharge/Safecharge
+app/design/adminhtml/default/default/template/safecharge app/design/adminhtml/default/default/template/safecharge
+app/design/frontend/base/default/layout/safecharge app/design/frontend/base/default/layout/safecharge
+app/design/frontend/base/default/template/safecharge app/design/frontend/base/default/template/safecharge
+app/etc/modules/Safecharge_Safecharge.xml app/etc/modules/Safecharge_Safecharge.xml
+app/locale/en_US/Safecharge_Safecharge.csv app/locale/en_US/Safecharge_Safecharge.csv
+skin/frontend/base/default/css/safecharge skin/frontend/base/default/css/safecharge
+skin/frontend/base/default/images/safecharge skin/frontend/base/default/images/safecharge
+skin/frontend/base/default/js/safecharge skin/frontend/base/default/js/safecharge

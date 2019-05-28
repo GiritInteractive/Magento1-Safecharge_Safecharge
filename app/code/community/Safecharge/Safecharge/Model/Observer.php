@@ -35,30 +35,6 @@ class Safecharge_Safecharge_Model_Observer
     /**
      * @param Varien_Event_Observer $observer
      *
-     * @return Safecharge_Safecharge_Model_Observer|void
-     */
-    public function externalSolution(Varien_Event_Observer $observer)
-    {
-        /** @var Safecharge_Safecharge_Helper_Config $config */
-        $config = Mage::helper('safecharge_safecharge/config');
-
-        if ($config->getPaymentSolution() === Safecharge_Safecharge_Model_Safecharge::PAYMENT_SOLUTION_INTEGRATED) {
-            return $this;
-        }
-
-        $redirectUrl = Mage::getUrl(
-            'safecharge/payment_redirect/external',
-            array('_secure' => true)
-        );
-
-        Mage::app()->getFrontController()->getResponse()->setRedirect($redirectUrl);
-        Mage::app()->getResponse()->sendResponse();
-        exit;
-    }
-
-    /**
-     * @param Varien_Event_Observer $observer
-     *
      * @return Safecharge_Safecharge_Model_Observer
      * @throws Varien_Exception
      */
