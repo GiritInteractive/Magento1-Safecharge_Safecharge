@@ -9,6 +9,8 @@
 abstract class Safecharge_Safecharge_Model_Api_Response_Abstract
 {
     const METHOD_SESSION_TOKEN = 'token';
+    const GET_MERCHANT_PAYMENT_METHODS_METHOD = 'getMerchantPaymentMethods';
+    const PAYMENT_APM_METHOD = 'paymentAPM';
 
     /**
      * Response result const.
@@ -72,7 +74,6 @@ abstract class Safecharge_Safecharge_Model_Api_Response_Abstract
     public function process()
     {
         $requestStatus = $this->getRequestStatus();
-
         if (Mage::helper('safecharge_safecharge/config')->isDebugEnabled() === true) {
             Mage::log(
                 'Response: '
@@ -138,7 +139,16 @@ abstract class Safecharge_Safecharge_Model_Api_Response_Abstract
         $body = $this->curl->getBody();
 
         $responseStatus = strtolower(!empty($body['status']) ? $body['status'] : '');
-        if ($responseStatus !== 'success') {
+        $responseTransactionStatus = strtolower(!empty($body['transactionStatus']) ? $body['transactionStatus'] : '');
+        $responseTransactionType = strtolower(!empty($body['transactionType']) ? $body['transactionType'] : '');
+        $responsetThreeDFlow = (int)(!empty($body['threeDFlow']) ? $body['threeDFlow'] : '');
+        if (
+            !(
+                (!(in_array($responseTransactionType, ['auth', 'sale']) || ($responseTransactionType === 'sale3d' && $responsetThreeDFlow === 0)) && $responseStatus === 'success' && $responseTransactionType !== 'error') ||
+                ($responseTransactionType === 'sale3d' && $responsetThreeDFlow === 0 && $responseTransactionStatus === 'approved') ||
+                (in_array($responseTransactionType, ['auth', 'sale']) && $responseTransactionStatus === 'approved')
+            )
+        ) {
             return false;
         }
 

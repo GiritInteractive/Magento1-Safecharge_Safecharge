@@ -33,86 +33,66 @@ class Safecharge_Safecharge_Helper_UrlBuilder
     }
 
     /**
-     * @return string
+     * @return array
      */
-    public function getUrl()
-    {
-        if ($this->moduleConfig->getPaymentSolution() === Safecharge_Safecharge_Model_Safecharge::PAYMENT_SOLUTION_INTEGRATED) {
-            return '';
-        }
+    public function getQueryParams(){
+      if ($this->moduleConfig->getPaymentSolution() === Safecharge_Safecharge_Model_Safecharge::PAYMENT_SOLUTION_INTEGRATED) {
+          return '';
+      }
 
-        /** @var Mage_Sales_Model_Quote $quote */
-        $quote = $this->checkoutSession->getQuote();
+      /** @var Mage_Sales_Model_Quote $quote */
+      $quote = $this->checkoutSession->getQuote();
+      $quotePayment = $quote->getPayment();
 
-        $shipping = 0;
-        $shippingAddress = $quote->getShippingAddress();
-        if ($shippingAddress !== null) {
-            $shipping = (float)$shippingAddress->getBaseShippingAmount();
-        }
+      $reservedOrderId = $quotePayment
+        ->getAdditionalInformation(Safecharge_Safecharge_Model_Safecharge::TRANSACTION_ORDER_ID) ?: $this->getReservedOrderId();
 
-        $url = $this->getEndpoint();
-
-        $totalTax = (float)$quote->getShippingAddress()->getBaseTaxAmount();
-
-        $queryParams = array(
+      $queryParams = array(
             'merchant_id' => $this->moduleConfig->getMerchantId(),
             'merchant_site_id' => $this->moduleConfig->getMerchantSiteId(),
+            'customField1' => $this->moduleConfig->getSourcePlatformField(),
             'total_amount' => round($quote->getBaseGrandTotal(), 2),
-            'handling' => $totalTax,
-            'discount' => round($quote->getBaseSubtotal() - $quote->getBaseSubtotalWithDiscount(), 2),
-            'shipping' => round($shipping, 2),
+            'discount' => 0,
+            'shipping' => 0,
+            'total_tax' => 0,
             'currency' => $quote->getBaseCurrencyCode(),
             'user_token_id' => $quote->getCustomerId(),
             'time_stamp' => date('YmdHis'),
-            'version' => '3.0.0',
-            //'success_url' => $this->getSuccessUrl(), // TODO: Not sure if final solution.
-            //'error_url' => $this->getErrorUrl(), // TODO: Not sure if final solution.
-            //'back_url' => $this->getBackUrl(), // TODO: Not sure if final solution.
-        );
+            'version' => '4.0.0',
+            'success_url' => $this->getSuccessUrl(),
+            'pending_url' => $this->getPendingUrl(),
+            'error_url' => $this->getErrorUrl(), // TODO: Not sure if final solution.
+            'back_url' => $this->getBackUrl(), // TODO: Not sure if final solution.
+            'notify_url' => $this->getApmDmnUrl($reservedOrderId),
+            'merchant_unique_id' => $reservedOrderId,
+            'ipAddress' => $quote->getRemoteIp(),
+            'encoding' => 'UTF-8',
+     );
 
-        $concat = $this->moduleConfig->getMerchantSecretKey()
-            . $queryParams['merchant_id']
-            . $queryParams['currency']
-            . $queryParams['total_amount'];
+     if (($billing = $quote->getBillingAddress()) && $billing !== null) {
+         $billingAddress = [
+             'first_name' => $billing->getFirstname(),
+             'last_name' => $billing->getLastname(),
+             'address' => is_array($billing->getStreet()) ? implode(' ', $billing->getStreet()) : '',
+             'cell' => '',
+             'phone' => $billing->getTelephone(),
+             'zip' => $billing->getPostcode(),
+             'city' => $billing->getCity(),
+             'country' => $billing->getCountryId(),
+             'state' => $billing->getRegionCode(),
+             'email' => $billing->getEmail(),
+         ];
+         $queryParams = array_merge($queryParams, $billingAddress);
+     }
 
-        $numberOfItems = 0;
-        $i = 1;
+     $queryParams['item_name_1'] = 'product1';
+     $queryParams['item_amount_1'] = $queryParams['total_amount'];
+     $queryParams['item_quantity_1'] = 1;
+     $queryParams['numberofitems'] = 1;
 
-        $quoteItems = $quote->getAllVisibleItems();
-        foreach ($quoteItems as $quoteItem) {
-            $price = $quoteItem->getBasePrice();
-            if (!$price) {
-                continue;
-            }
+     $queryParams['checksum'] = hash('sha256', utf8_encode($this->moduleConfig->getMerchantSecretKey() . implode("", $queryParams)));
 
-            $queryParams['item_name_' . $i] = $quoteItem->getName();
-            $queryParams['item_amount_' . $i] = round($price, 2);
-            $queryParams['item_quantity_' . $i] = (int)$quoteItem->getQty();
-
-            $numberOfItems++;
-
-            $concat .= $queryParams['item_name_' . $i]
-                . $queryParams['item_amount_' . $i]
-                . $queryParams['item_quantity_' . $i];
-
-            $i++;
-        }
-
-        $queryParams['numberofitems'] = $numberOfItems;
-
-        $concat .= $queryParams['user_token_id']
-            . $queryParams['time_stamp'];
-
-        $concat = utf8_encode($concat);
-        $queryParams['checksum'] = hash('sha256', $concat);
-
-        $url .= '?' . http_build_query($queryParams);
-
-        $url .= '&success_url=' . $this->getSuccessUrl(); // TODO: Not sure if final solution.
-        $url .= '&error_url=' . $this->getErrorUrl(); // TODO: Not sure if final solution.
-        $url .= '&back_url=' . $this->getBackUrl(); // TODO: Not sure if final solution.
-
-        return $url;
+     return $queryParams;
     }
 
     /**
@@ -120,7 +100,7 @@ class Safecharge_Safecharge_Helper_UrlBuilder
      *
      * @return string
      */
-    protected function getEndpoint()
+    public function getEndpoint()
     {
         $endpoint = Safecharge_Safecharge_Model_Api_Request_Abstract::LIVE_ENDPOINT;
         if ($this->moduleConfig->isTestModeEnabled() === true) {
@@ -133,7 +113,18 @@ class Safecharge_Safecharge_Helper_UrlBuilder
     /**
      * @return string
      */
-    protected function getSuccessUrl()
+    public function getApmDmnUrl($incrementId = null, $storeId = null)
+    {
+        $quoteId = $this->checkoutSession->getQuoteId();
+        $apmDmnUrl = $this->urlBuilder->getUrl(
+          'safecharge/payment_redirect/dmn/order/' . ((is_null($incrementId)) ? $this->getReservedOrderId() : $incrementId));
+        return $apmDmnUrl;
+    }
+
+    /**
+     * @return string
+     */
+    public function getSuccessUrl()
     {
         $quoteId = $this->checkoutSession->getQuoteId();
 
@@ -146,7 +137,7 @@ class Safecharge_Safecharge_Helper_UrlBuilder
     /**
      * @return string
      */
-    protected function getErrorUrl()
+    public function getErrorUrl()
     {
         $quoteId = $this->checkoutSession->getQuoteId();
 
@@ -159,8 +150,32 @@ class Safecharge_Safecharge_Helper_UrlBuilder
     /**
      * @return string
      */
-    protected function getBackUrl()
+    public function getPendingUrl()
+    {
+        $quoteId = $this->checkoutSession->getQuoteId();
+
+        return $this->urlBuilder->getUrl(
+            'safecharge/payment_redirect/pending',
+            array('order' => $quoteId)
+        );
+    }
+
+    /**
+     * @return string
+     */
+    public function getBackUrl()
     {
         return $this->urlBuilder->getUrl('checkout/cart');
+    }
+
+    public function getReservedOrderId()
+    {
+      $this->checkoutSession->getQuote()->reserveOrderId()->save();
+      $reservedOrderId = $this->checkoutSession->getQuote()->getReservedOrderId();
+      if (!$reservedOrderId) {
+        $this->checkoutSession->getQuote()->reserveOrderId()->save();
+        $reservedOrderId = $this->checkoutSession->getQuote()->getReservedOrderId();
+      }
+      return $reservedOrderId;
     }
 }
