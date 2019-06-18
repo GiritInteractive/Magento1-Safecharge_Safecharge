@@ -278,6 +278,7 @@ abstract class Safecharge_Safecharge_Model_Api_Request_Abstract
     {
         $billing = $order->getBillingAddress();
 
+        $urlBuilder = Mage::helper('safecharge_safecharge/urlBuilder');
         $orderData = array(
             'userTokenId' => $order->getCustomerId() ?: $order->getCustomerEmail(),
             'clientUniqueId' => $order->getIncrementId(),
@@ -289,6 +290,12 @@ abstract class Safecharge_Safecharge_Model_Api_Request_Abstract
                 'totalTax' => (float)$order->getBaseTaxAmount(),
             ),
             'items' => array(),
+            'success_url' => 'safecharge/payment_redirect/success/order/'.$order->getId(),
+            'pending_url' => 'safecharge/payment_redirect/pending/order/'.$order->getId(),
+            'error_url' => 'safecharge/payment_redirect/error/order/'.$order->getId(),
+            'back_url' => $urlBuilder->getBackUrl(),
+            'notify_url' => $urlBuilder->getApmDmnUrl($order->getId()),
+            'merchant_unique_id' => $reservedOrderId,
             'deviceDetails' => array(
                 'deviceType' => 'DESKTOP',
                 'ipAddress' => $order->getRemoteIp(),
@@ -406,6 +413,7 @@ abstract class Safecharge_Safecharge_Model_Api_Request_Abstract
                 'totalTax' => (float)$totalTax,
             ],
             'items' => [],
+            'merchant_unique_id' => $reservedOrderId,
             'deviceDetails' => [
                 'deviceType' => 'DESKTOP',
                 'ipAddress' => $quote->getRemoteIp(),

@@ -42,6 +42,15 @@
             </safecharge_safecharge_setup>
         </resources>
         <events>
+          <sales_order_place_after>
+              <observers>
+                <safecharge_safecharge_sales_order_place_after>
+                  <class>safecharge_safecharge/observer</class>
+                  <method>orderSettleCheck</method>
+                  <type>singleton</type>
+                </safecharge_safecharge_sales_order_place_after>
+              </observers>
+            </sales_order_place_after>
             <sales_order_invoice_pay>
                 <observers>
                     <safecharge_safecharge_order_invoice_pay>
