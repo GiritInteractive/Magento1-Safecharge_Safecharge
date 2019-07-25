@@ -11,7 +11,7 @@ class Safecharge_Safecharge_Model_Source_PaymentAction
             ),
             array(
                 'value' => Safecharge_Safecharge_Model_Safecharge::ACTION_AUTHORIZE_CAPTURE,
-                'label' => Mage::helper('safecharge_safecharge')->__('Authorize and Capture'),
+                'label' => Mage::helper('safecharge_safecharge')->__('Authorize & Capture'),
             ),
         );
     }
