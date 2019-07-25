@@ -9,7 +9,7 @@
    <description>Magento extension for Safecharge payment gateway.</description>
    <license>Community GPL</license>
    <license_uri>https://www.gnu.org/licenses/gpl-3.0.html</license_uri>
-   <version>1.0.0</version>
+   <version>1.5.0</version>
    <stability>stable</stability>
    <notes>- Extension release.</notes>
    <authors>

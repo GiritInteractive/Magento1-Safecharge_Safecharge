@@ -72,7 +72,6 @@ class Safecharge_Safecharge_Model_Safecharge extends Mage_Payment_Model_Method_C
     protected $_canUseForMultishipping = true;
     protected $_canSaveCc = true;
     protected $_canFetchTransactionInfo = true;
-    protected $_allowCurrencyCode = array('USD');
 
     /**
      * {@inheritdoc}
@@ -145,14 +144,7 @@ class Safecharge_Safecharge_Model_Safecharge extends Mage_Payment_Model_Method_C
      */
     public function canUseForCurrency($currencyCode)
     {
-        /** @var Safecharge_Safecharge_Helper_Config $config */
-        $config = Mage::helper('safecharge_safecharge/config');
-
-        if ($config->getCurrency() === $currencyCode) {
-            return true;
-        }
-
-        return false;
+        return true;
     }
 
     /**
@@ -430,6 +422,7 @@ class Safecharge_Safecharge_Model_Safecharge extends Mage_Payment_Model_Method_C
      */
     public function getOrderPlaceRedirectUrl()
     {
+
         /** @var Safecharge_Safecharge_Helper_Config $config */
         $config = Mage::helper('safecharge_safecharge/config');
 
@@ -441,5 +434,22 @@ class Safecharge_Safecharge_Model_Safecharge extends Mage_Payment_Model_Method_C
         }
 
         return '';
+    }
+
+
+    /**
+     * @return string
+     * @throws Varien_Exception
+     */
+    public function getCheckoutRedirectUrl()
+    {
+
+      /** @var Safecharge_Safecharge_Helper_Config $config */
+      $config = Mage::helper('safecharge_safecharge/config');
+
+      $solution = $config->getPaymentSolution();
+      if($solution == 'REDIRECT'){
+        return Mage::getUrl('safecharge/payment/external');
+      }
     }
 }

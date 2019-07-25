@@ -15,6 +15,9 @@ abstract class Safecharge_Safecharge_Model_Api_Request_Abstract
     const TEST_ENDPOINT = 'https://ppp-test.safecharge.com/ppp/';
 
     const METHOD_SESSION_TOKEN = 'getSessionToken';
+    const GET_MERCHANT_PAYMENT_METHODS_METHOD = 'getMerchantPaymentMethods';
+    const PAYMENT_APM_METHOD = 'paymentAPM';
+
 
     /**
      * @var Safecharge_Safecharge_Helper_Config
@@ -51,6 +54,7 @@ abstract class Safecharge_Safecharge_Model_Api_Request_Abstract
         }
 
         $endpoint .= 'api/v1/';
+
         $method = $this->getRequestMethod();
         $endpoint = $endpoint . $method . '.do';
 
@@ -121,6 +125,10 @@ abstract class Safecharge_Safecharge_Model_Api_Request_Abstract
             'merchantSiteId' => $this->config->getMerchantSiteId(),
             'clientRequestId' => $this->getRequestId(),
             'timeStamp' => Mage::getSingleton('core/date')->gmtDate('YmdHis'),
+            'merchantDetails' => [
+              'customField1' => $this->config->getSourcePlatformField(),
+            ],
+            'encoding' => 'UTF-8'
         );
 
         return $params;
@@ -236,9 +244,7 @@ abstract class Safecharge_Safecharge_Model_Api_Request_Abstract
                 )
             )
             ->save();
-
         $this->curl->post($endpoint, $headers, $params);
-
         return $this;
     }
 
@@ -272,10 +278,11 @@ abstract class Safecharge_Safecharge_Model_Api_Request_Abstract
     {
         $billing = $order->getBillingAddress();
 
+        $urlBuilder = Mage::helper('safecharge_safecharge/urlBuilder');
         $orderData = array(
             'userTokenId' => $order->getCustomerId() ?: $order->getCustomerEmail(),
             'clientUniqueId' => $order->getIncrementId(),
-            'currency' => $order->getBaseCurrencyCode(),
+            'currency' => $order->getOrderCurrencyCode(),
             'amountDetails' => array(
                 'totalShipping' => (float)$order->getBaseShippingAmount(),
                 'totalHandling' => (float)0,
@@ -283,6 +290,12 @@ abstract class Safecharge_Safecharge_Model_Api_Request_Abstract
                 'totalTax' => (float)$order->getBaseTaxAmount(),
             ),
             'items' => array(),
+            'success_url' => 'safecharge/payment_redirect/success/order/'.$order->getId(),
+            'pending_url' => 'safecharge/payment_redirect/pending/order/'.$order->getId(),
+            'error_url' => 'safecharge/payment_redirect/error/order/'.$order->getId(),
+            'back_url' => $urlBuilder->getBackUrl(),
+            'notify_url' => $urlBuilder->getApmDmnUrl($order->getId()),
+            'merchant_unique_id' => $reservedOrderId,
             'deviceDetails' => array(
                 'deviceType' => 'DESKTOP',
                 'ipAddress' => $order->getRemoteIp(),
@@ -309,6 +322,8 @@ abstract class Safecharge_Safecharge_Model_Api_Request_Abstract
                 'state' => $billing->getRegionCode(),
                 'email' => $billing->getEmail(),
             );
+
+            $orderData = array_merge($orderData, $orderData['billingAddress']);
         }
 
         $orderItems = $order->getAllVisibleItems();
@@ -366,5 +381,78 @@ abstract class Safecharge_Safecharge_Model_Api_Request_Abstract
         }
 
         return $data;
+    }
+
+    /**
+     * @param Quote $quote
+     *
+     * @return array
+     */
+    protected function getQuoteData($quote)
+    {
+
+        /** @var OrderAddressInterface $billing */
+        $billing = $quote->getBillingAddress();
+
+        $shipping = 0;
+        $totalTax = 0;
+        $shippingAddress = $quote->getShippingAddress();
+        if ($shippingAddress !== null) {
+            $shipping = $shippingAddress->getBaseShippingAmount();
+            $totalTax = $shippingAddress->getBaseTaxAmount();
+        }
+
+        $quoteData = [
+            'userTokenId' => $quote->getCustomerId() ?: $quote->getCustomerEmail(),
+            'clientUniqueId' => $quote->getReservedOrderId(),
+            'currency' => $quote->getBaseCurrencyCode(),
+            'amountDetails' => [
+                'totalShipping' => (float)$shipping,
+                'totalHandling' => (float)0,
+                'totalDiscount' => (float)abs($quote->getBaseSubtotal() - $quote->getBaseSubtotalWithDiscount()),
+                'totalTax' => (float)$totalTax,
+            ],
+            'items' => [],
+            'merchant_unique_id' => $reservedOrderId,
+            'deviceDetails' => [
+                'deviceType' => 'DESKTOP',
+                'ipAddress' => $quote->getRemoteIp(),
+            ],
+            'ipAddress' => $quote->getRemoteIp(),
+        ];
+
+        if ($billing !== null) {
+            $quoteData['billingAddress'] = [
+                'firstName' => $billing->getFirstname(),
+                'lastName' => $billing->getLastname(),
+                'address' => is_array($billing->getStreet())
+                    ? implode(' ', $billing->getStreet())
+                    : '',
+                'cell' => '',
+                'phone' => $billing->getTelephone(),
+                'zip' => $billing->getPostcode(),
+                'city' => $billing->getCity(),
+                'country' => $billing->getCountryId(),
+                'state' => $billing->getRegionCode(),
+                'email' => $billing->getEmail(),
+            ];
+            $quoteData = array_merge($quoteData, $quoteData['billingAddress']);
+        }
+
+        // Add items details.
+        $quoteItems = $quote->getAllVisibleItems();
+        foreach ($quoteItems as $quoteItem) {
+            $price = (float)$quoteItem->getBasePrice();
+            if (!$price) {
+                continue;
+            }
+
+            $quoteData['items'][] = [
+                'name' => $quoteItem->getName(),
+                'price' => $price,
+                'quantity' => (int)$quoteItem->getQty(),
+            ];
+        }
+        return $quoteData;
     }
 }

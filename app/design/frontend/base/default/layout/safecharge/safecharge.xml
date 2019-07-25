@@ -21,6 +21,13 @@
                template="safecharge/safecharge/payment/authenticate/form.phtml"/>
     </safecharge_safecharge_payment_authenticate>
 
+    <safecharge_safecharge_payment_external>
+        <block type="safecharge_safecharge/payment_redirect_form"
+               name="root"
+               output="toHtml"
+               template="safecharge/safecharge/payment/redirect/form.phtml"/>
+    </safecharge_safecharge_payment_external>
+
     <safecharge_safecharge_vault_cards>
         <update handle="customer_account"/>
         <reference name="my.account.wrapper">

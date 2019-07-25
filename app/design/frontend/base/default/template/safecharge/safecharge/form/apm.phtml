@@ -1,0 +1,13 @@
+
+<?php $paymentMethods = $this->getPaymentMethods(); ?>
+<div class="form-list" id="payment_form_<?php echo $this->getMethodCode() ?>" style="display:none;">
+  <?php foreach($paymentMethods as $method): ?>
+    <?php if($method['paymentMethod'] !== 'cc_card'): ?>
+      <div id="safecharge_<?php echo $method['paymentMethod'] ?>" class="apm_method_wrapper">
+        <span class="safecharge-apm-method-icon " style="background-image:url(<?php echo $method['logoURL']  ?>);" width="10" height="10"></span>
+        <label class="apm_payment_label" for="p_method_safecharge_<?php echo $method['paymentMethod'] ?>"><?php echo $method["paymentMethodDisplayName"][0]["message"]; ?> </label>
+        <input id="p_method_safecharge_paypal" value="<?php echo $method['paymentMethod'] ?>" type="radio" name="payment[apmMethod]" title="Safecharge <?php echo $method["paymentMethodDisplayName"][0]["message"]; ?>"class="radio" autocomplete="off">
+      </div>
+    <?php endif; ?>
+  <?php endforeach;?>
+</div>

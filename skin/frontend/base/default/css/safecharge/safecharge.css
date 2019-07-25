@@ -17,3 +17,39 @@
 .safecharge-list-item.active {
     display: block;
 }
+
+.safecharge-apm-method-icon {
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: contain;
+  display: inline-block;
+  width: 80%;
+  margin-right: 10%;
+  height: 50px;
+  line-height: 26px;
+  vertical-align: middle;
+  margin-left: 10px;
+}
+
+.apm_payment_label {
+  background: white !important;
+  text-align: center;
+  font-size: 15px;
+  width: 100%;
+  padding-top: 0px;
+}
+
+.apm_method_wrapper{
+  float: left;
+  max-width: 100px;
+  position: relative;
+  width: 150px;
+  padding-top: 15px;
+  margin: 10px;
+}
+
+.apm_method_wrapper input{
+  position: absolute;
+  top:0px;
+  left:0px;
+}

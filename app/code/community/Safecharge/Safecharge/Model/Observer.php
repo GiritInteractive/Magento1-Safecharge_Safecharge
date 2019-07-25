@@ -35,25 +35,34 @@ class Safecharge_Safecharge_Model_Observer
     /**
      * @param Varien_Event_Observer $observer
      *
-     * @return Safecharge_Safecharge_Model_Observer|void
+     * @return Safecharge_Safecharge_Model_Observer
+     * @throws Varien_Exception
      */
-    public function externalSolution(Varien_Event_Observer $observer)
+    public function orderSettleCheck(Varien_Event_Observer $observer)
     {
-        /** @var Safecharge_Safecharge_Helper_Config $config */
-        $config = Mage::helper('safecharge_safecharge/config');
 
-        if ($config->getPaymentSolution() === Safecharge_Safecharge_Model_Safecharge::PAYMENT_SOLUTION_INTEGRATED) {
-            return $this;
-        }
+      $order = $observer->getEvent()->getOrder();
 
-        $redirectUrl = Mage::getUrl(
-            'safecharge/payment_redirect/external',
-            array('_secure' => true)
-        );
 
-        Mage::app()->getFrontController()->getResponse()->setRedirect($redirectUrl);
-        Mage::app()->getResponse()->sendResponse();
-        exit;
+      if ($order->getBaseTotalDue() != 0) {
+          return $this;
+      }
+
+      $formattedAmount = $order
+          ->getBaseCurrency()
+          ->formatTxt($order->getGrandTotal());
+
+      $message = Mage::helper('sales')->__(
+        'Captured amount of %s online.',
+        $formattedAmount
+      );
+
+      $state = Mage_Sales_Model_Order::STATE_PROCESSING;
+      $status = Safecharge_Safecharge_Model_Safecharge::SC_SETTLED;
+      $order->setState($state, $status, $message);
+      $order->save();
+
+      return $this;
     }
 
     /**
