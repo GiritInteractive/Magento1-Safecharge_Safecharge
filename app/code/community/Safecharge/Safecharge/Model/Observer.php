@@ -38,6 +38,39 @@ class Safecharge_Safecharge_Model_Observer
      * @return Safecharge_Safecharge_Model_Observer
      * @throws Varien_Exception
      */
+    public function orderSettleCheck(Varien_Event_Observer $observer)
+    {
+
+      $order = $observer->getEvent()->getOrder();
+
+
+      if ($order->getBaseTotalDue() != 0) {
+          return $this;
+      }
+
+      $formattedAmount = $order
+          ->getBaseCurrency()
+          ->formatTxt($order->getGrandTotal());
+
+      $message = Mage::helper('sales')->__(
+        'Captured amount of %s online.',
+        $formattedAmount
+      );
+
+      $state = Mage_Sales_Model_Order::STATE_PROCESSING;
+      $status = Safecharge_Safecharge_Model_Safecharge::SC_SETTLED;
+      $order->setState($state, $status, $message);
+      $order->save();
+
+      return $this;
+    }
+
+    /**
+     * @param Varien_Event_Observer $observer
+     *
+     * @return Safecharge_Safecharge_Model_Observer
+     * @throws Varien_Exception
+     */
     public function invoicePay(Varien_Event_Observer $observer)
     {
         /** @var Mage_Sales_Model_Order_Invoice $invoice */
