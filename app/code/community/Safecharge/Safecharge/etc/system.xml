@@ -4,7 +4,7 @@
 		<payment>
 			<groups>
 				<safecharge translate="label comment tooltip" module="safecharge_safecharge">
-					<label>Safecharge</label>
+					<label>Secure Payment with SafeCharge</label>
 					<frontend_type>text</frontend_type>
 					<sort_order>50</sort_order>
 					<show_in_default>1</show_in_default>

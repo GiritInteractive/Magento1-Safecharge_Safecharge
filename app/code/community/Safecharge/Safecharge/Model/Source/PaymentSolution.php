@@ -7,11 +7,11 @@ class Safecharge_Safecharge_Model_Source_PaymentSolution
         return array(
             array(
                 'value' => Safecharge_Safecharge_Model_Safecharge::PAYMENT_SOLUTION_INTEGRATED,
-                'label' => Mage::helper('safecharge_safecharge')->__('Built In Form'),
+                'label' => Mage::helper('safecharge_safecharge')->__('SafeCharge API'),
             ),
             array(
                 'value' => Safecharge_Safecharge_Model_Safecharge::PAYMENT_SOLUTION_REDIRECT,
-                'label' => Mage::helper('safecharge_safecharge')->__('Redirect'),
+                'label' => Mage::helper('safecharge_safecharge')->__('Hosted payment page'),
             ),
         );
     }
